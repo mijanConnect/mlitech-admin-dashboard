@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import { Table, Button, Modal, Form, Input, Tooltip, Switch } from "antd";
 import { useNavigate } from "react-router-dom";
 import { FaTrash } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
 import { IoEyeSharp } from "react-icons/io5";
 import Swal from "sweetalert2";
 import MarchantIcon from "../../assets/marchant.png";
+import { DatePicker } from "antd";
+import moment from "moment"; // Make sure to import moment
 
 const components = {
   header: {
@@ -49,6 +52,13 @@ const CustomerManagement = () => {
       phone: "+1234567890",
       location: "New York",
       businessName: "Alice's Store",
+      subscription: "Premium", // Subscription Type
+      tier: "Gold",
+      date: "2025-01-15", // Date
+      reward: "500", // Reward points or amount
+      pointsUsed: "200", // Points used
+      lastPaymentDate: "2025-01-01", // Added Last Payment Date
+      expiryDate: "2026-01-01", // Added Expiry Date
     },
     {
       id: 2,
@@ -61,6 +71,13 @@ const CustomerManagement = () => {
       phone: "+9876543210",
       location: "California",
       businessName: "John's Shop",
+      subscription: "Basic", // Subscription Type
+      tier: "Silver",
+      date: "2025-05-10", // Date
+      reward: "400", // Reward points or amount
+      pointsUsed: "100", // Points used
+      lastPaymentDate: "2025-05-01", // Added Last Payment Date
+      expiryDate: "2026-05-01", // Added Expiry Date
     },
     {
       id: 3,
@@ -73,12 +90,55 @@ const CustomerManagement = () => {
       phone: "+9876543210",
       location: "California",
       businessName: "John's Shop",
+      subscription: "Premium", // Subscription Type
+      tier: "Platinum",
+      date: "2025-03-20", // Date
+      reward: "600", // Reward points or amount
+      pointsUsed: "250", // Points used
+      lastPaymentDate: "2025-03-15", // Added Last Payment Date
+      expiryDate: "2026-03-15", // Added Expiry Date
     },
   ]);
 
+  const columns2 = [
+    {
+      title: "SL", // Serial number
+      dataIndex: "id", // Assuming the ID is used as the serial number
+      key: "id",
+      align: "center",
+    },
+    {
+      title: "Subscription Type", // Subscription Type
+      dataIndex: "subscription", // Assuming each record has a 'subscription' field
+      key: "subscription",
+      align: "center",
+    },
+    {
+      title: "Date", // Date
+      dataIndex: "date", // Assuming a 'date' field exists in your data
+      key: "date",
+      align: "center",
+    },
+    {
+      title: "Reward", // Reward (Could be points, discounts, etc.)
+      dataIndex: "reward", // Assuming a 'reward' field exists
+      key: "reward",
+      align: "center",
+    },
+    {
+      title: "Points Used", // Points Used
+      dataIndex: "pointsUsed", // Assuming a 'pointsUsed' field exists
+      key: "pointsUsed",
+      align: "center",
+    },
+  ];
+
   const [isViewModalVisible, setIsViewModalVisible] = useState(false);
+  const [isEditModalVisible, setIsEditModalVisible] = useState(false); // Add Edit Modal state
   const [selectedRecord, setSelectedRecord] = useState(null);
   const [searchText, setSearchText] = useState(""); // Search text state
+
+  const [form] = Form.useForm(); // Declare the form here to use Ant Design's form functionality
 
   const navigate = useNavigate();
 
@@ -92,6 +152,45 @@ const CustomerManagement = () => {
     setSelectedRecord(null);
   };
 
+  const showEditModal = (record) => {
+    setSelectedRecord(record);
+    form.setFieldsValue({
+      name: record.name,
+      email: record.email,
+      subscription: record.subscription,
+      tier: record.tier,
+      lastPaymentDate: record.lastPaymentDate
+        ? moment(record.lastPaymentDate)
+        : null, // Ensure it's a moment object
+      expiryDate: record.expiryDate ? moment(record.expiryDate) : null, // Ensure it's a moment object
+    });
+    setIsEditModalVisible(true);
+  };
+
+  const handleCloseEditModal = () => {
+    setIsEditModalVisible(false);
+    setSelectedRecord(null);
+  };
+
+  const handleEditSubmit = () => {
+    form
+      .validateFields()
+      .then((values) => {
+        const updatedRecord = { ...selectedRecord, ...values };
+        setData((prev) =>
+          prev.map((item) =>
+            item.id === selectedRecord.id ? updatedRecord : item
+          )
+        );
+        setIsEditModalVisible(false);
+        form.resetFields();
+        Swal.fire("Updated!", "The customer details were updated.", "success");
+      })
+      .catch((error) => {
+        console.error("Validation failed:", error);
+      });
+  };
+
   const filteredData = data.filter(
     (item) =>
       item.id.toString().includes(searchText) ||
@@ -100,29 +199,6 @@ const CustomerManagement = () => {
       item.email.toLowerCase().includes(searchText.toLowerCase())
   );
 
-  const columns2 = [
-    {
-      title: "SL",
-      dataIndex: "orderId",
-      key: "orderId",
-    },
-    {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
-    },
-    {
-      title: "Reward",
-      dataIndex: "quantity",
-      key: "quantity",
-    },
-    {
-      title: "Points Used",
-      dataIndex: "amount",
-      key: "amount",
-    },
-  ];
-
   const columns = [
     { title: "SL", dataIndex: "id", key: "id", align: "center" },
     { title: "Customer ID", dataIndex: "id", key: "id", align: "center" },
@@ -130,6 +206,18 @@ const CustomerManagement = () => {
       title: "Customer Name",
       dataIndex: "businessName",
       key: "businessName",
+      align: "center",
+    },
+    {
+      title: "Subscription",
+      dataIndex: "subscription",
+      key: "subscription",
+      align: "center",
+    },
+    {
+      title: "Tier",
+      dataIndex: "tier",
+      key: "tier",
       align: "center",
     },
     {
@@ -145,75 +233,15 @@ const CustomerManagement = () => {
       key: "location",
       align: "center",
     },
-    { title: "Sales Rep", dataIndex: "name", key: "salesRep", align: "center" },
+    { title: "Refer Rep", dataIndex: "name", key: "salesRep", align: "center" },
     { title: "Total Sales", dataIndex: "sales", key: "sales", align: "center" },
     { title: "Status", dataIndex: "status", key: "status", align: "center" },
     {
       title: "Action",
       key: "action",
       align: "center",
-      with: 120,
+      width: 170,
       render: (_, record) => (
-        // <div className="flex items-center justify-center">
-        //   <div className="flex gap-2 border border-primary rounded-md p-1">
-        //     <Button
-        //       className="bg-primary !text-white hover:!text-black"
-        //       onClick={() => {
-        //         Swal.fire({
-        //           title: "Are you sure?",
-        //           text: "Do you want to accept this sales rep?",
-        //           icon: "question",
-        //           showCancelButton: true,
-        //           confirmButtonColor: "#3085d6",
-        //           cancelButtonColor: "#d33",
-        //           confirmButtonText: "Yes, accept",
-        //         }).then((result) => {
-        //           if (result.isConfirmed) {
-        //             Swal.fire({
-        //               title: "Accepted!",
-        //               text: "The sales rep has been accepted.",
-        //               icon: "success",
-        //               timer: 1500,
-        //               showConfirmButton: false,
-        //             });
-        //             // TODO: Add your actual accept logic here
-        //           }
-        //         });
-        //       }}
-        //     >
-        //       Accept
-        //     </Button>
-
-        //     <Button
-        //       className="bg-red-600 !text-white hover:!text-black"
-        //       onClick={() => {
-        //         Swal.fire({
-        //           title: "Are you sure?",
-        //           text: "Do you want to reject this sales rep?",
-        //           icon: "warning",
-        //           showCancelButton: true,
-        //           confirmButtonColor: "#3085d6",
-        //           cancelButtonColor: "#d33",
-        //           confirmButtonText: "Yes, reject",
-        //         }).then((result) => {
-        //           if (result.isConfirmed) {
-        //             Swal.fire({
-        //               title: "Rejected!",
-        //               text: "The sales rep has been rejected.",
-        //               icon: "success",
-        //               timer: 1500,
-        //               showConfirmButton: false,
-        //             });
-        //             // TODO: Add your actual reject logic here
-        //           }
-        //         });
-        //       }}
-        //     >
-        //       Reject
-        //     </Button>
-        //   </div>
-        // </div>
-
         <div
           className="flex gap-2 justify-between align-middle py-[7px] px-[15px] border border-primary rounded-md"
           style={{ alignItems: "center" }}
@@ -224,6 +252,15 @@ const CustomerManagement = () => {
               className="text-primary hover:text-green-700 text-xl"
             >
               <IoEyeSharp />
+            </button>
+          </Tooltip>
+
+          <Tooltip title="Edit">
+            <button
+              onClick={() => showEditModal(record)} // Edit modal
+              className="text-primary hover:text-green-700 text-xl"
+            >
+              <FaEdit />
             </button>
           </Tooltip>
 
@@ -325,7 +362,7 @@ const CustomerManagement = () => {
 
       <div className="overflow-x-auto">
         <Table
-          dataSource={data}
+          dataSource={filteredData}
           columns={columns}
           pagination={{ pageSize: 10 }}
           bordered={false}
@@ -339,17 +376,10 @@ const CustomerManagement = () => {
 
       {/* View Details Modal */}
       <Modal
-        // title="Merchant Profile"
         visible={isViewModalVisible}
         onCancel={handleCloseViewModal}
         width={700}
-        footer={
-          [
-            // <Button key="close" type="primary" onClick={handleCloseViewModal}>
-            //   Close
-            // </Button>,
-          ]
-        }
+        footer={false}
       >
         {selectedRecord && (
           <div>
@@ -363,38 +393,48 @@ const CustomerManagement = () => {
                 <p className="text-[22px] font-bold text-primary">
                   Customer Profile
                 </p>
+
+                {/* Displaying the customer details */}
                 <p>
-                  <strong>Name:</strong> {selectedRecord.name}
+                  <strong>Customer Name:</strong> {selectedRecord.name}
                 </p>
                 <p>
-                  <strong>Business Name:</strong> {selectedRecord.businessName}
+                  <strong>Phone Number:</strong> {selectedRecord.phone}
                 </p>
                 <p>
-                  <strong>Email:</strong> {selectedRecord.email}
+                  <strong>Email Address:</strong> {selectedRecord.email}
                 </p>
                 <p>
-                  <strong>Phone:</strong> {selectedRecord.phone}
+                  <strong>Address:</strong> {selectedRecord.location}
                 </p>
-                <p>
-                  <strong>Location:</strong> {selectedRecord.location}
-                </p>
-                <p>
-                  <strong>Total Sales:</strong> {selectedRecord.sales}
-                </p>
-                <p>
-                  <strong>Status:</strong> {selectedRecord.status}
-                </p>
-                <p className="text-[22px] font-bold text-primary">
+
+                {/* Adding the new fields */}
+                <p className="text-[22px] font-bold text-primary mt-4">
                   Loyalty Points
                 </p>
                 <p>
-                  <strong>Points Balance:</strong> {selectedRecord.sales}
+                  <strong>Points Balance:</strong> {selectedRecord.sales}{" "}
+                  {/* Points Balance */}
                 </p>
                 <p>
-                  <strong>Tier:</strong> {selectedRecord.businessName}
+                  <strong>Tier:</strong> {selectedRecord.tier} {/* Tier */}
+                </p>
+                <p>
+                  <strong>Subscription Type:</strong>{" "}
+                  {selectedRecord.subscription} {/* Subscription Type */}
+                </p>
+                <p>
+                  <strong>Last Payment Date:</strong>{" "}
+                  {selectedRecord.lastPaymentDate} {/* Last Payment Date */}
+                </p>
+                <p>
+                  <strong>Expiry Date:</strong> {selectedRecord.expiryDate}{" "}
+                  {/* Expiry Date */}
                 </p>
               </div>
             </div>
+
+            {/* Table (assuming this shows the customer's order history or other details) */}
             <Table
               columns={columns2}
               dataSource={data}
@@ -404,6 +444,52 @@ const CustomerManagement = () => {
             />
           </div>
         )}
+      </Modal>
+
+      {/* Edit Customer Modal */}
+      <Modal
+        title="Edit Customer"
+        visible={isEditModalVisible}
+        onCancel={handleCloseEditModal}
+        onOk={handleEditSubmit}
+      >
+        <Form form={form} layout="vertical">
+          <Form.Item
+            label="Customer Name"
+            name="name"
+            rules={[{ required: true }]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label="Email Address"
+            name="email"
+            rules={[{ required: true }]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label="Subscription Type"
+            name="subscription"
+            rules={[{ required: true }]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item label="Tier" name="tier" rules={[{ required: true }]}>
+            <Input />
+          </Form.Item>
+
+          <Form.Item label="Last Payment Date" name="lastPaymentDate">
+            <DatePicker style={{ width: "100%" }} format="YYYY-MM-DD" />
+          </Form.Item>
+
+          <Form.Item label="Expiry Date" name="expiryDate">
+            <DatePicker style={{ width: "100%" }} format="YYYY-MM-DD" />
+          </Form.Item>
+        </Form>
       </Modal>
     </div>
   );
