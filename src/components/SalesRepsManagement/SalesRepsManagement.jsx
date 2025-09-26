@@ -2,49 +2,20 @@ import React, { useState } from "react";
 import {
   Table,
   Button,
-  Modal,
-  Form,
   Input,
   Tooltip,
   Switch,
-  message,
   Rate,
+  message,
+  Form,
 } from "antd";
-import { useNavigate } from "react-router-dom";
 import { FaTrash } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
 import { IoEyeSharp } from "react-icons/io5";
 import Swal from "sweetalert2";
-import MarchantIcon from "../../assets/marchant.png";
-
-const components = {
-  header: {
-    row: (props) => (
-      <tr
-        {...props}
-        style={{
-          backgroundColor: "#f0f5f9",
-          height: "50px",
-          color: "secondary",
-          fontSize: "18px",
-          textAlign: "center",
-          padding: "12px",
-        }}
-      />
-    ),
-    cell: (props) => (
-      <th
-        {...props}
-        style={{
-          color: "secondary",
-          fontWeight: "bold",
-          fontSize: "18px",
-          textAlign: "center",
-          padding: "12px",
-        }}
-      />
-    ),
-  },
-};
+import moment from "moment"; // Import Moment.js for date handling
+import AddEditModal from "./custom/AddEditModal"; // Import the AddEditModal component
+import ViewModal from "./custom/ViewModal";
 
 const SalesRepsManagementTable = () => {
   const [data, setData] = useState([
@@ -54,12 +25,20 @@ const SalesRepsManagementTable = () => {
       name: "Alice Johnson",
       image: "https://i.ibb.co/8gh3mqPR/Ellipse-48-1.jpg",
       email: "example@email.com",
+      phone: "+1234567890",
+      businessName: "Alice's Store",
+      website: "https://www.alicesstore.com",
+      address: "123 Main St, New York, NY",
+      servicesOffered: "Retail, E-commerce",
+      tier: "Gold",
+      subscriptionType: "Premium",
+      lastPaymentDate: "2025-09-01",
+      expiryDate: "2026-09-01",
+      totalRevenue: "$10,000",
       retailer: 5,
       sales: "$300",
       status: "Active",
-      phone: "+1234567890",
       location: "New York",
-      businessName: "Alice's Store",
       feedback: 4,
     },
     {
@@ -68,12 +47,20 @@ const SalesRepsManagementTable = () => {
       name: "John Doe",
       image: "https://i.ibb.co/8gh3mqPR/Ellipse-48-1.jpg",
       email: "john@email.com",
+      phone: "+9876543210",
+      businessName: "John's Shop",
+      website: "https://www.johnsshop.com",
+      address: "456 Oak St, California, CA",
+      servicesOffered: "Fashion, Retail",
+      tier: "Silver",
+      subscriptionType: "Basic",
+      lastPaymentDate: "2025-07-15",
+      expiryDate: "2026-07-15",
+      totalRevenue: "$5,000",
       retailer: 3,
       sales: "$500",
       status: "Inactive",
-      phone: "+9876543210",
       location: "California",
-      businessName: "John's Shop",
       feedback: 3,
     },
     {
@@ -82,34 +69,66 @@ const SalesRepsManagementTable = () => {
       name: "Jane Smith",
       image: "https://i.ibb.co/8gh3mqPR/Ellipse-48-1.jpg",
       email: "jane@email.com",
+      phone: "+1112223333",
+      businessName: "Jane's Boutique",
+      website: "https://www.janesboutique.com",
+      address: "789 Pine St, Texas, TX",
+      servicesOffered: "Clothing, Accessories",
+      tier: "Platinum",
+      subscriptionType: "Premium",
+      lastPaymentDate: "2025-08-10",
+      expiryDate: "2026-08-10",
+      totalRevenue: "$15,000",
       retailer: 4,
       sales: "$700",
       status: "Active",
-      phone: "+1112223333",
       location: "Texas",
-      businessName: "Jane's Boutique",
       feedback: 5,
     },
   ]);
-
-  const [isViewModalVisible, setIsViewModalVisible] = useState(false);
   const [isAddModalVisible, setIsAddModalVisible] = useState(false);
+  const [isEditModalVisible, setIsEditModalVisible] = useState(false); // Separate state for Edit modal
   const [selectedRecord, setSelectedRecord] = useState(null);
   const [form] = Form.useForm();
   const [searchText, setSearchText] = useState("");
 
-  const navigate = useNavigate();
+  // Define components inside the SalesRepsManagementTable component
+  const components = {
+    header: {
+      row: (props) => (
+        <tr
+          {...props}
+          style={{
+            backgroundColor: "#f0f5f9",
+            height: "50px",
+            color: "secondary",
+            fontSize: "18px",
+            textAlign: "center",
+            padding: "12px",
+          }}
+        />
+      ),
+      cell: (props) => (
+        <th
+          {...props}
+          style={{
+            color: "secondary",
+            fontWeight: "bold",
+            fontSize: "18px",
+            textAlign: "center",
+            padding: "12px",
+          }}
+        />
+      ),
+    },
+  };
 
+  // Show View Modal
   const showViewModal = (record) => {
     setSelectedRecord(record);
-    setIsViewModalVisible(true);
   };
 
-  const handleCloseViewModal = () => {
-    setIsViewModalVisible(false);
-    setSelectedRecord(null);
-  };
-
+  // Handle adding new merchant
   const handleAddMerchant = () => {
     form
       .validateFields()
@@ -131,49 +150,48 @@ const SalesRepsManagementTable = () => {
       });
   };
 
-  // Export CSV
-  const exportToCSV = () => {
-    const csvRows = [];
-    const headers = [
-      "Merchant Card ID",
-      "Business Name",
-      "Phone",
-      "Email",
-      "Location",
-      "Sales Rep",
-      "Total Sales",
-      "Status",
-    ];
-    csvRows.push(headers.join(","));
-
-    data.forEach((row) => {
-      const values = [
-        row.id,
-        row.businessName,
-        row.phone,
-        row.email,
-        row.location,
-        row.name,
-        row.sales,
-        row.status,
-      ];
-      csvRows.push(values.join(","));
-    });
-
-    const csvString = csvRows.join("\n");
-    const blob = new Blob([csvString], { type: "text/csv" });
-    const url = window.URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    a.setAttribute("hidden", "");
-    a.setAttribute("href", url);
-    a.setAttribute("download", "merchants.csv");
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+  // Handle updating existing merchant
+  const handleUpdateMerchant = () => {
+    form
+      .validateFields()
+      .then((values) => {
+        const updatedMerchant = {
+          ...selectedRecord,
+          ...values,
+        };
+        setData(
+          data.map((item) =>
+            item.id === selectedRecord.id ? updatedMerchant : item
+          )
+        );
+        setIsEditModalVisible(false); // Close the edit modal after update
+        form.resetFields();
+        message.success("Merchant updated successfully!");
+      })
+      .catch((info) => {
+        console.log("Validate Failed:", info);
+      });
   };
 
-  // Filter data
+  // Show Add or Edit Modal based on the selected record
+  const showAddOrEditModal = (record = null) => {
+    // setSelectedRecord(record);
+    if (record) {
+      form.setFieldsValue({
+        merchantName: record.id,
+        email: record.email,
+        subscriptionType: record.subscriptionType,
+        lastPaymentDate: moment(record.lastPaymentDate), // Using moment.js to handle date
+        expiryDate: moment(record.expiryDate), // Using moment.js to handle date
+        tier: record.tier,
+      });
+      setIsEditModalVisible(true); // Open the Edit Modal when editing
+    } else {
+      form.resetFields();
+      setIsAddModalVisible(true); // Open the Add Modal when adding
+    }
+  };
+
   const filteredData = data.filter(
     (item) =>
       item.MarchantID.toString().includes(searchText) ||
@@ -221,8 +239,8 @@ const SalesRepsManagementTable = () => {
         <Tooltip title="Customer Ratings">
           <Rate
             disabled
-            value={record.feedback} // assuming rating is a number from 1 to 5
-            style={{ fontSize: 16, color: "#FFD700" }} // optional styling
+            value={record.feedback}
+            style={{ fontSize: 16, color: "#FFD700" }}
           />
         </Tooltip>
       ),
@@ -231,7 +249,6 @@ const SalesRepsManagementTable = () => {
       title: "Action",
       key: "action",
       align: "center",
-      with: 120,
       render: (_, record) => (
         <div
           className="flex gap-2 justify-between align-middle py-[7px] px-[15px] border border-primary rounded-md"
@@ -239,10 +256,19 @@ const SalesRepsManagementTable = () => {
         >
           <Tooltip title="View Details">
             <button
-              onClick={() => showViewModal(record)}
+              onClick={() => showViewModal(record)} // View modal
               className="text-primary hover:text-green-700 text-xl"
             >
               <IoEyeSharp />
+            </button>
+          </Tooltip>
+
+          <Tooltip title="Edit">
+            <button
+              onClick={() => showAddOrEditModal(record)} // Edit modal
+              className="text-primary hover:text-green-700 text-xl"
+            >
+              <FaEdit />
             </button>
           </Tooltip>
 
@@ -318,30 +344,6 @@ const SalesRepsManagementTable = () => {
     },
   ];
 
-  // Columns for loyalty points / orders
-  const columns2 = [
-    {
-      title: "SL",
-      dataIndex: "orderId",
-      key: "orderId",
-    },
-    {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
-    },
-    {
-      title: "Reward",
-      dataIndex: "quantity",
-      key: "quantity",
-    },
-    {
-      title: "Points Used",
-      dataIndex: "amount",
-      key: "amount",
-    },
-  ];
-
   return (
     <div className="w-full">
       <div className="flex justify-between md:flex-row flex-col md:items-end items-start gap-4 mb-6">
@@ -362,14 +364,11 @@ const SalesRepsManagementTable = () => {
           />
           <Button
             className="bg-primary text-white hover:!text-black"
-            onClick={() => setIsAddModalVisible(true)}
+            onClick={() => showAddOrEditModal()} // Add New Merchant
           >
             Add New Merchant
           </Button>
-          <Button
-            className="bg-primary text-white hover:!text-black"
-            // onClick={exportToCSV}
-          >
+          <Button className="bg-primary text-white hover:!text-black">
             Export
           </Button>
         </div>
@@ -377,7 +376,7 @@ const SalesRepsManagementTable = () => {
 
       <div className="overflow-x-auto">
         <Table
-          dataSource={data}
+          dataSource={filteredData}
           columns={columns}
           pagination={{ pageSize: 10 }}
           bordered={false}
@@ -389,112 +388,25 @@ const SalesRepsManagementTable = () => {
         />
       </div>
 
-      {/* View Details Modal */}
-      <Modal
-        visible={isViewModalVisible}
-        onCancel={handleCloseViewModal}
-        width={700}
-        footer={[]}
-      >
-        {selectedRecord && (
-          <div className="flex flex-col">
-            <div className="flex flex-row items-center justify-between gap-3 mt-8 mb-8">
-              <img
-                src={MarchantIcon}
-                alt={selectedRecord.name}
-                className="w-214 h-214 rounded-full"
-              />
-              <div className="flex flex-col gap-2 w-full border border-primary rounded-md p-4">
-                <p className="text-[22px] font-bold text-primary">
-                  Marchant Profile
-                </p>
-                <p>
-                  <strong>Name:</strong> {selectedRecord.name}
-                </p>
-                <p>
-                  <strong>Business Name:</strong> {selectedRecord.businessName}
-                </p>
-                <p>
-                  <strong>Email:</strong> {selectedRecord.email}
-                </p>
-                <p>
-                  <strong>Phone:</strong> {selectedRecord.phone}
-                </p>
-                <p>
-                  <strong>Location:</strong> {selectedRecord.location}
-                </p>
-                <p>
-                  <strong>Total Sales:</strong> {selectedRecord.sales}
-                </p>
-                <p>
-                  <strong>Status:</strong> {selectedRecord.status}
-                </p>
-              </div>
-            </div>
-            <Table
-              columns={columns2}
-              dataSource={data}
-              rowKey="orderId"
-              pagination={{ pageSize: 5 }}
-              className="mt-6"
-            />
-          </div>
-        )}
-      </Modal>
+      {/* View Modal */}
+      {selectedRecord && (
+        <ViewModal
+          visible={Boolean(selectedRecord)}
+          record={selectedRecord}
+          onCancel={() => setSelectedRecord(null)}
+        />
+      )}
 
-      {/* Add New Merchant Modal */}
-      <Modal
-        visible={isAddModalVisible}
-        title="Add New Merchant"
-        onCancel={() => setIsAddModalVisible(false)}
-        onOk={handleAddMerchant}
-        okText="Add Merchant"
-      >
-        <Form form={form} layout="vertical">
-          <Form.Item
-            name="businessName"
-            label="Business Name"
-            rules={[{ required: true, message: "Please enter business name" }]}
-          >
-            <Input placeholder="Enter business name" />
-          </Form.Item>
-          <Form.Item
-            name="phone"
-            label="Phone Number"
-            rules={[{ required: true, message: "Please enter phone number" }]}
-          >
-            <Input placeholder="Enter phone number" />
-          </Form.Item>
-          <Form.Item
-            name="email"
-            label="Email"
-            rules={[{ required: true, message: "Please enter email" }]}
-          >
-            <Input placeholder="Enter email" />
-          </Form.Item>
-          <Form.Item
-            name="location"
-            label="Location"
-            rules={[{ required: true, message: "Please enter location" }]}
-          >
-            <Input placeholder="Enter location" />
-          </Form.Item>
-          <Form.Item
-            name="name"
-            label="Sales Rep"
-            rules={[{ required: true, message: "Please enter sales rep name" }]}
-          >
-            <Input placeholder="Enter sales rep name" />
-          </Form.Item>
-          <Form.Item
-            name="sales"
-            label="Total Sales"
-            rules={[{ required: true, message: "Please enter total sales" }]}
-          >
-            <Input placeholder="Enter sales (e.g. $500)" />
-          </Form.Item>
-        </Form>
-      </Modal>
+      {/* Add or Edit Merchant Modal */}
+      <AddEditModal
+        visible={isAddModalVisible || isEditModalVisible}
+        selectedRecord={selectedRecord}
+        form={form}
+        handleAddMerchant={handleAddMerchant}
+        handleUpdateMerchant={handleUpdateMerchant}
+        setIsAddModalVisible={setIsAddModalVisible}
+        setIsEditModalVisible={setIsEditModalVisible}
+      />
     </div>
   );
 };
