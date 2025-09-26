@@ -43,6 +43,52 @@ const SalesRepPortal = () => {
       actionStatus: "Inactive",
       status: "Active",
       statusProgress: 0, // 0 = only Acknowledge, 1 = Activate, 2 = Generate Token
+      acknowledgeDate: null, // Added to store acknowledge date
+      generatedToken: "", // Added to store generated token
+      activateDate: null, // Added to store activate date
+      tokenGeneratedDate: null, // Added to store token generated date
+    },
+    {
+      id: 2,
+      customerName: "Jane Smith",
+      phoneNumber: "234-567-8901",
+      email: "jane.smith@mail.com",
+      paymentStatus: "Unpaid",
+      actionStatus: "Inactive",
+      status: "Inactive",
+      statusProgress: 0,
+      acknowledgeDate: null,
+      generatedToken: "",
+      activateDate: null,
+      tokenGeneratedDate: null,
+    },
+    {
+      id: 3,
+      customerName: "Alice Johnson",
+      phoneNumber: "345-678-9012",
+      email: "alice.johnson@mail.com",
+      paymentStatus: "Paid",
+      actionStatus: "Active",
+      status: "Active",
+      statusProgress: 2,
+      acknowledgeDate: "2025-09-20", // Sample date
+      generatedToken: "ABC12345",
+      activateDate: "2025-09-18", // Sample date
+      tokenGeneratedDate: "2025-09-20", // Sample date
+    },
+    {
+      id: 4,
+      customerName: "Bob Brown",
+      phoneNumber: "456-789-0123",
+      email: "bob.brown@mail.com",
+      paymentStatus: "Paid",
+      actionStatus: "Inactive",
+      status: "Inactive",
+      statusProgress: 1,
+      acknowledgeDate: "2025-09-15", // Sample date
+      generatedToken: "",
+      activateDate: null,
+      tokenGeneratedDate: null,
     },
   ]);
 
@@ -96,6 +142,15 @@ const SalesRepPortal = () => {
   const handleGenerateToken = () => {
     const token = Math.random().toString(36).substring(2, 10).toUpperCase();
     setGeneratedToken(token);
+
+    // Set generated token in the selected record
+    setData((prevData) =>
+      prevData.map((item) =>
+        item.id === selectedRecord.id
+          ? { ...item, generatedToken: token, tokenGeneratedDate: new Date() }
+          : item
+      )
+    );
     setIsCashTokenModalVisible(true);
   };
 
@@ -137,6 +192,7 @@ const SalesRepPortal = () => {
                   ...item,
                   actionStatus: isCurrentlyActive ? "Inactive" : "Active",
                   statusProgress: 2, // Generate Token enabled
+                  activateDate: new Date(),
                 }
               : item
           )
@@ -175,7 +231,7 @@ const SalesRepPortal = () => {
       align: "center",
     },
     {
-      title: "Action Status",
+      title: "Account Status",
       dataIndex: "actionStatus",
       key: "actionStatus",
       align: "center",
@@ -189,7 +245,16 @@ const SalesRepPortal = () => {
           <div className="border border-primary rounded-md px-2 py-2 flex gap-2">
             <Tooltip title="Acknowledge cash payment">
               <button
-                onClick={() => showViewModal(record)}
+                onClick={() => {
+                  showViewModal(record);
+                  setData((prevData) =>
+                    prevData.map((item) =>
+                      item.id === record.id
+                        ? { ...item, acknowledgeDate: new Date() }
+                        : item
+                    )
+                  );
+                }}
                 disabled={record.statusProgress > 0}
                 className={`text-secondary border border-primary rounded-md px-2 py-1 bg-[#D7F4DE] ${
                   record.statusProgress > 0
@@ -197,7 +262,11 @@ const SalesRepPortal = () => {
                     : ""
                 }`}
               >
-                Acknowledge cash payment
+                {record.acknowledgeDate
+                  ? `Acknowledged on ${new Date(
+                      record.acknowledgeDate
+                    ).toLocaleDateString()}`
+                  : "Acknowledge cash payment"}
               </button>
             </Tooltip>
 
@@ -217,7 +286,11 @@ const SalesRepPortal = () => {
                     : ""
                 }`}
               >
-                {record.actionStatus === "Active"
+                {record.activateDate
+                  ? `Activated on ${new Date(
+                      record.activateDate
+                    ).toLocaleDateString()}`
+                  : record.actionStatus === "Active"
                   ? "Deactivate User"
                   : "Activate User"}
               </button>
@@ -233,7 +306,11 @@ const SalesRepPortal = () => {
                     : ""
                 }`}
               >
-                Generate a cash token
+                {record.tokenGeneratedDate
+                  ? `Token generated on ${new Date(
+                      record.tokenGeneratedDate
+                    ).toLocaleDateString()}`
+                  : record.generatedToken || "Generate a cash token"}
               </button>
             </Tooltip>
           </div>
