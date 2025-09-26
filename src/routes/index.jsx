@@ -181,10 +181,6 @@ const router = createBrowserRouter([
         path: "/faq",
         element: <FAQSection />,
       },
-      // {
-      //   path: "/sub-category",
-      //   element: <SubCategoryManagement />,
-      // },
       {
         path: "/profile",
         element: <AdminProfile />,
