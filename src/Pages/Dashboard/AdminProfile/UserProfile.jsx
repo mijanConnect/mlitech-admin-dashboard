@@ -230,7 +230,7 @@ const UserProfile = () => {
           {/* Address */}
           {/* <Form.Item
             name="address"
-            label="Address"
+            label="Location"
             style={{ marginBottom: 0 }}
             rules={[{ required: true, message: "Please enter your address" }]}
           >
@@ -244,6 +244,27 @@ const UserProfile = () => {
               }}
             />
           </Form.Item> */}
+
+          {/* Language */}
+          <Form.Item
+            name="language"
+            label="Location"
+            style={{ marginBottom: 0 }}
+            rules={[{ required: true, message: "Please select your language" }]}
+          >
+            <Select
+              placeholder="Select your Language"
+              style={{
+                height: "45px",
+                backgroundColor: "#f7f7f7",
+                borderRadius: "8px",
+                border: "1px solid #E0E4EC", // Custom border for language
+              }}
+            >
+              <Option value="english">New York</Option>
+              <Option value="french">Manhattan</Option>
+            </Select>
+          </Form.Item>
 
           {/* Language */}
           {/* <Form.Item
