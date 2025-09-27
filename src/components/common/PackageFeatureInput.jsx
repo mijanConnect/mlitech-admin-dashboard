@@ -65,7 +65,7 @@ const FeaturedInput = ({ value = [], onChange }) => {
             </div>
           ))}
 
-          <Form.Item className="w-full flex justify-start">
+          <Form.Item className="w-full flex justify-center">
             <Button
               type="dashed"
               onClick={() => {
