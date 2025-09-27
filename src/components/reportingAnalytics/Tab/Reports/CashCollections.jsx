@@ -73,10 +73,14 @@ export default function CashCollections() {
     // Filter data based on the From and To date
     let filtered = data;
     if (fromDate) {
-      filtered = filtered.filter((item) => dayjs(item.date).isSameOrAfter(fromDate, 'day'));
+      filtered = filtered.filter((item) =>
+        dayjs(item.date).isSameOrAfter(fromDate, "day")
+      );
     }
     if (toDate) {
-      filtered = filtered.filter((item) => dayjs(item.date).isSameOrBefore(toDate, 'day'));
+      filtered = filtered.filter((item) =>
+        dayjs(item.date).isSameOrBefore(toDate, "day")
+      );
     }
     setFilteredData(filtered);
   };
