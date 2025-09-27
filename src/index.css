@@ -311,3 +311,18 @@ select {
 .custom-dropdown .ant-select-item {
   border-radius: 8px;
 }
+
+/* .mli-custom-label{
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.mli-custom-select{
+  height: 40px;
+} */
+
+.ant-form-item-label > label {
+  font-size: 20px;
+  color: #18191b;
+  font-weight: bold;
+}

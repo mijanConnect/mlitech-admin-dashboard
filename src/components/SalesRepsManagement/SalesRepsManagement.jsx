@@ -178,7 +178,7 @@ const SalesRepsManagementTable = () => {
     // setSelectedRecord(record);
     if (record) {
       form.setFieldsValue({
-        merchantName: record.id,
+        merchantName: record.MarchantID,
         email: record.email,
         subscriptionType: record.subscriptionType,
         lastPaymentDate: moment(record.lastPaymentDate), // Using moment.js to handle date
