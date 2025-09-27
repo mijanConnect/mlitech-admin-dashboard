@@ -94,7 +94,6 @@ export default function PointsRedeemed() {
       <Row
         justify="space-between"
         align="middle"
-        style={{ marginBottom: "20px" }}
       >
         <Col>
           <h1 className="text-[30px] font-bold mb-2">Points Redeemed</h1>
