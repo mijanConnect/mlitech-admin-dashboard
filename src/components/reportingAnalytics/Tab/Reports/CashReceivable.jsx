@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Table, DatePicker, Row, Col } from "antd";
+import { Table, DatePicker, Row, Col, Button } from "antd";
 import "antd/dist/reset.css";
 import dayjs from "dayjs";
 
@@ -42,7 +42,7 @@ const columns = [
     align: "center",
   },
   {
-    title: "Total Collected",
+    title: "Total Outstanding",
     dataIndex: "totalCollected",
     key: "totalCollected",
     align: "center",
@@ -82,36 +82,30 @@ export default function CashReceivable() {
 
   return (
     <div style={{ width: "100%" }}>
-      <Row
-        justify="space-between"
-        align="middle"
-      >
-        <Col>
-          <h1 className="text-[30px] font-bold mb-2">Cash Receivable</h1>
-        </Col>
-        <Col>
-          <Row gutter={16}>
-            <Col>
-              <DatePicker
-                value={fromDate ? dayjs(fromDate) : null}
-                onChange={handleFromDateChange}
-                style={{ marginLeft: "auto", marginRight: "20px" }}
-                placeholder="From Date"
-                format="YYYY-MM-DD"
-              />
-            </Col>
-            <Col>
-              <DatePicker
-                value={toDate ? dayjs(toDate) : null}
-                onChange={handleToDateChange}
-                style={{ marginRight: "20px" }}
-                placeholder="To Date"
-                format="YYYY-MM-DD"
-              />
-            </Col>
-          </Row>
-        </Col>
-      </Row>
+      <div className="flex justify-between items-center mb-1">
+        <h1 className="text-[30px] font-bold mb-2">Cash Receivable</h1>
+        <div className="flex justify-between">
+          <div>
+            <DatePicker
+              value={fromDate ? dayjs(fromDate) : null}
+              onChange={handleFromDateChange}
+              style={{ marginLeft: "auto", marginRight: "20px" }}
+              placeholder="From Date"
+              format="YYYY-MM-DD"
+            />
+            <DatePicker
+              value={toDate ? dayjs(toDate) : null}
+              onChange={handleToDateChange}
+              style={{ marginRight: "20px" }}
+              placeholder="To Date"
+              format="YYYY-MM-DD"
+            />
+          </div>
+          <Button className="bg-primary text-white font-semibold px-[20px] hover:!text-black">
+            Export Report
+          </Button>
+        </div>
+      </div>
       <Table
         bordered={false}
         size="small"

@@ -371,10 +371,8 @@ const PackagesPlans = () => {
               className="w-1/2"
             >
               <Select placeholder="Select duration">
-                <Select.Option value="1 month">1 Month</Select.Option>
-                <Select.Option value="3 months">3 Months</Select.Option>
-                <Select.Option value="6 months">6 Months</Select.Option>
-                <Select.Option value="1 year">1 Year</Select.Option>
+                <Select.Option value="1 month">4 Month</Select.Option>
+                <Select.Option value="3 months">8 Months</Select.Option>
               </Select>
             </Form.Item>
           </div>

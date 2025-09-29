@@ -350,13 +350,19 @@ const CustomerManagement = () => {
         </div>
 
         {/* Search Bar */}
-        <div className="mb-4">
+        <div className="mb-4 flex gap-4">
           <Input
             placeholder="Search by Customer ID, Name, Phone or Email"
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
             className="w-96"
           />
+          <Button
+            className="bg-primary text-white hover:!text-black"
+            // onClick={exportToCSV}
+          >
+            Export
+          </Button>
         </div>
       </div>
 

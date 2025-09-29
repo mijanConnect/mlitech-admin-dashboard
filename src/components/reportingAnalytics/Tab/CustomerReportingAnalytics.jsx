@@ -596,7 +596,12 @@ export default function MonthlyStatsChartCustomer() {
 
       {/* Ant Design Table */}
       <div style={{ marginTop: "50px" }}>
-        <h1 className="text-[22px] font-bold mb-2">Data Table</h1>
+        <div className="flex justify-between mb-1">
+          <h1 className="text-[22px] font-bold mb-2">Data Table</h1>
+          <Button className="bg-primary text-white font-semibold px-[20px] hover:!text-black">
+            Export Report
+          </Button>
+        </div>
         <Table
           bordered={false}
           size="small"
