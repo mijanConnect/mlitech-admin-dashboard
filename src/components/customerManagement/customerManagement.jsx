@@ -1,13 +1,22 @@
+"use client";
 import React, { useState } from "react";
-import { Table, Button, Modal, Form, Input, Tooltip, Switch } from "antd";
+import {
+  Table,
+  Button,
+  Modal,
+  Form,
+  Input,
+  Tooltip,
+  Switch,
+  DatePicker,
+} from "antd";
 import { useNavigate } from "react-router-dom";
 import { FaTrash } from "react-icons/fa";
 import { FaEdit } from "react-icons/fa";
 import { IoEyeSharp } from "react-icons/io5";
 import Swal from "sweetalert2";
 import MarchantIcon from "../../assets/marchant.png";
-import { DatePicker } from "antd";
-import moment from "moment"; // Make sure to import moment
+import dayjs from "dayjs"; // ✅ AntD v5 uses Dayjs
 
 const components = {
   header: {
@@ -160,9 +169,9 @@ const CustomerManagement = () => {
       subscription: record.subscription,
       tier: record.tier,
       lastPaymentDate: record.lastPaymentDate
-        ? moment(record.lastPaymentDate)
-        : null, // Ensure it's a moment object
-      expiryDate: record.expiryDate ? moment(record.expiryDate) : null, // Ensure it's a moment object
+        ? dayjs(record.lastPaymentDate) // Use Dayjs for DatePicker value
+        : null,
+      expiryDate: record.expiryDate ? dayjs(record.expiryDate) : null,
     });
     setIsEditModalVisible(true);
   };
@@ -465,7 +474,7 @@ const CustomerManagement = () => {
             name="name"
             rules={[{ required: true }]}
           >
-            <Input />
+            <Input className="mli-tall-input" />
           </Form.Item>
 
           <Form.Item
@@ -473,7 +482,7 @@ const CustomerManagement = () => {
             name="email"
             rules={[{ required: true }]}
           >
-            <Input />
+            <Input className="mli-tall-input" />
           </Form.Item>
 
           <Form.Item
@@ -481,19 +490,27 @@ const CustomerManagement = () => {
             name="subscription"
             rules={[{ required: true }]}
           >
-            <Input />
+            <Input className="mli-tall-input" />
           </Form.Item>
 
           <Form.Item label="Tier" name="tier" rules={[{ required: true }]}>
-            <Input />
+            <Input className="mli-tall-input" />
           </Form.Item>
 
           <Form.Item label="Last Payment Date" name="lastPaymentDate">
-            <DatePicker style={{ width: "100%" }} format="YYYY-MM-DD" />
+            <DatePicker
+              style={{ width: "100%" }}
+              format="YYYY-MM-DD"
+              className="mli-tall-picker"
+            />
           </Form.Item>
 
           <Form.Item label="Expiry Date" name="expiryDate">
-            <DatePicker style={{ width: "100%" }} format="YYYY-MM-DD" />
+            <DatePicker
+              style={{ width: "100%" }}
+              format="YYYY-MM-DD"
+              className="mli-tall-picker"
+            />
           </Form.Item>
         </Form>
       </Modal>

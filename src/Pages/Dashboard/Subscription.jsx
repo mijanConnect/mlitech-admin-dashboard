@@ -342,7 +342,7 @@ const PackagesPlans = () => {
             label="Package Title"
             rules={[{ required: true, message: "Title is required" }]}
           >
-            <Input placeholder="e.g. Basic Plan" />
+            <Input placeholder="e.g. Basic Plan" className="mli-tall-input" />
           </Form.Item>
           <Form.Item
             name="description"
@@ -352,6 +352,7 @@ const PackagesPlans = () => {
             <Input.TextArea
               rows={4}
               placeholder="Short description of what this package offers"
+              className="mli-tall-input"
             />
           </Form.Item>
 
@@ -362,7 +363,12 @@ const PackagesPlans = () => {
               rules={[{ required: true, message: "Price is required" }]}
               className="w-1/2"
             >
-              <Input type="number" prefix="$" placeholder="29.99" />
+              <Input
+                type="number"
+                prefix="$"
+                placeholder="29.99"
+                className="mli-tall-input"
+              />
             </Form.Item>
             <Form.Item
               name="duration"
@@ -370,7 +376,7 @@ const PackagesPlans = () => {
               rules={[{ required: true, message: "Duration is required" }]}
               className="w-1/2"
             >
-              <Select placeholder="Select duration">
+              <Select placeholder="Select duration" className="mli-tall-select">
                 <Select.Option value="1 month">4 Month</Select.Option>
                 <Select.Option value="3 months">8 Months</Select.Option>
               </Select>

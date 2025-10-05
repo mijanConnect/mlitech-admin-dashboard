@@ -72,7 +72,7 @@ const PushNotifications = () => {
 
   return (
     <div className="border rounded-lg px-12 py-8 bg-white">
-      <div className="flex justify-between items-center mb-[50px]">
+      <div className="flex justify-between items-center mb-[40px]">
         <h2 className="text-xl font-bold">Send Push Notifications</h2>
       </div>
 
@@ -81,13 +81,14 @@ const PushNotifications = () => {
         <Row gutter={[16, 16]} justify="start" style={{ flexWrap: "wrap" }}>
           {/* Send To Dropdown */}
           <Col xs={24} sm={8} md={4}>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col">
               <label className="font-bold text-[18px] mb-1">Send To</label>
               <Select
                 placeholder="Select Recipients"
                 value={sendTo}
                 onChange={(value) => setSendTo(value)}
                 style={{ width: "100%" }}
+                className="mli-tall-select"
               >
                 <Option value="all">All</Option>
                 <Option value="specific">Specific Users</Option>
@@ -97,13 +98,14 @@ const PushNotifications = () => {
 
           {/* Location Dropdown */}
           <Col xs={24} sm={8} md={4}>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col">
               <label className="font-bold text-[18px] mb-1">Location</label>
               <Select
                 placeholder="Select Location"
                 value={location}
                 onChange={(value) => setLocation(value)}
                 style={{ width: "100%" }}
+                className="mli-tall-select"
               >
                 <Option value="ny">New York</Option>
                 <Option value="ca">California</Option>
@@ -114,13 +116,14 @@ const PushNotifications = () => {
 
           {/* Tier Dropdown */}
           <Col xs={24} sm={8} md={4}>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col">
               <label className="font-bold text-[18px] mb-1">Tier</label>
               <Select
                 placeholder="Select Tier"
                 value={tier}
                 onChange={(value) => setTier(value)}
                 style={{ width: "100%" }}
+                className="mli-tall-select"
               >
                 <Option value="gold">Gold</Option>
                 <Option value="silver">Silver</Option>
@@ -131,7 +134,7 @@ const PushNotifications = () => {
 
           {/* Subscription Type Dropdown */}
           <Col xs={24} sm={8} md={4}>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col">
               <label className="font-bold text-[18px] mb-1">
                 Subscription Type
               </label>
@@ -140,6 +143,7 @@ const PushNotifications = () => {
                 value={subscriptionType}
                 onChange={(value) => setSubscriptionType(value)}
                 style={{ width: "100%" }}
+                className="mli-tall-select"
               >
                 <Option value="basic">Basic</Option>
                 <Option value="premium">Premium</Option>
@@ -150,13 +154,14 @@ const PushNotifications = () => {
 
           {/* Status Dropdown */}
           <Col xs={24} sm={8} md={4}>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col">
               <label className="font-bold text-[18px] mb-1">Status</label>
               <Select
                 placeholder="Select Status"
                 value={status}
                 onChange={(value) => setStatus(value)}
                 style={{ width: "100%" }}
+                className="mli-tall-select"
               >
                 <Option value="active">Active</Option>
                 <Option value="inactive">Inactive</Option>
@@ -167,12 +172,13 @@ const PushNotifications = () => {
       </div>
 
       {/* Title Field */}
-      <div className="mb-6 flex flex-col gap-2">
-        <label className="font-bold text-[18px] mb-1">Title</label>
+      <div className="mb-6 flex flex-col">
+        <label className="font-bold text-[18px] mb-1 mt-2">Title</label>
         <Input
           placeholder="Enter notification title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          className="mli-tall-input"
         />
       </div>
 

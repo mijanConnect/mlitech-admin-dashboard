@@ -313,25 +313,25 @@ const LoginCredentials = () => {
         okText="Save Changes"
       >
         {selectedRecord && (
-          <div className="flex flex-col gap-2 w-full border border-primary rounded-md p-4 mt-8 mb-8">
+          <div className="flex flex-col gap-2 w-full rounded-md p-4 mb-6">
             <p className="text-[22px] font-bold text-primary">
               User Management
             </p>
             <Form form={viewForm} layout="vertical">
               <Form.Item name="name" label="User Name">
-                <Input />
+                <Input className="mli-tall-input" />
               </Form.Item>
               <Form.Item name="email" label="Email">
-                <Input />
+                <Input className="mli-tall-input" />
               </Form.Item>
               <Form.Item name="password" label="Password">
-                <Input />
+                <Input className="mli-tall-input" />
               </Form.Item>
               <Form.Item name="phone" label="Phone Number">
-                <Input />
+                <Input className="mli-tall-input" />
               </Form.Item>
               <Form.Item name="role" label="Role">
-                <Select>
+                <Select className="mli-tall-select">
                   {roles.map((role) => (
                     <Option key={role} value={role}>
                       {role}
@@ -340,7 +340,7 @@ const LoginCredentials = () => {
                 </Select>
               </Form.Item>
               <Form.Item name="status" label="Select Page Access Control">
-                <Select>
+                <Select className="mli-tall-select">
                   <Option value="Active">Full</Option>
                   <Option value="Inactive">Dashboard</Option>
                 </Select>
@@ -364,10 +364,10 @@ const LoginCredentials = () => {
             label="Role Name"
             rules={[{ required: true, message: "Please enter role name" }]}
           >
-            <Input placeholder="Enter role name" />
+            <Input placeholder="Enter role name" className="mli-tall-input" />
           </Form.Item>
           <Form.Item name="status" label="Select Page Access Control">
-            <Select>
+            <Select className="mli-tall-select">
               <Option value="Active">Full</Option>
               <Option value="Inactive">Dashboard</Option>
             </Select>
@@ -390,35 +390,35 @@ const LoginCredentials = () => {
             label="User Name"
             rules={[{ required: true, message: "Please enter name" }]}
           >
-            <Input />
+            <Input className="mli-tall-input" />
           </Form.Item>
           <Form.Item
             name="email"
             label="Email"
             rules={[{ required: true, message: "Please enter email" }]}
           >
-            <Input />
+            <Input className="mli-tall-input" />
           </Form.Item>
           <Form.Item
             name="password"
             label="Password"
             rules={[{ required: true, message: "Please enter password" }]}
           >
-            <Input type="password" />
+            <Input type="password" className="mli-tall-input" />
           </Form.Item>
           <Form.Item
             name="phone"
             label="Phone Number"
             rules={[{ required: true, message: "Please enter phone number" }]}
           >
-            <Input />
+            <Input className="mli-tall-input" />
           </Form.Item>
           <Form.Item
             name="role"
             label="Role"
             rules={[{ required: true, message: "Please select a role" }]}
           >
-            <Select placeholder="Select role">
+            <Select placeholder="Select role" className="mli-tall-select">
               {roles.map((role) => (
                 <Option key={role} value={role}>
                   {role}

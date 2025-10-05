@@ -13,8 +13,8 @@ import { FaTrash } from "react-icons/fa";
 import { FaEdit } from "react-icons/fa";
 import { IoEyeSharp } from "react-icons/io5";
 import Swal from "sweetalert2";
-import moment from "moment"; // Import Moment.js for date handling
-import AddEditModal from "./custom/AddEditModal"; // Import the AddEditModal component
+import dayjs from "dayjs"; // AntD v5 uses Dayjs
+import AddEditModal from "./custom/AddEditModal";
 import ViewModal from "./custom/ViewModal";
 
 const SalesRepsManagementTable = () => {
@@ -86,13 +86,14 @@ const SalesRepsManagementTable = () => {
       feedback: 5,
     },
   ]);
+
   const [isAddModalVisible, setIsAddModalVisible] = useState(false);
-  const [isEditModalVisible, setIsEditModalVisible] = useState(false); // Separate state for Edit modal
+  const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+  const [isViewModalVisible, setIsViewModalVisible] = useState(false); // ✅ separate flag for View modal
   const [selectedRecord, setSelectedRecord] = useState(null);
   const [form] = Form.useForm();
   const [searchText, setSearchText] = useState("");
 
-  // Define components inside the SalesRepsManagementTable component
   const components = {
     header: {
       row: (props) => (
@@ -123,24 +124,38 @@ const SalesRepsManagementTable = () => {
     },
   };
 
-  // Show View Modal
+  // View
   const showViewModal = (record) => {
     setSelectedRecord(record);
+    setIsViewModalVisible(true); // ✅ show view only when this is true
   };
 
-  // Handle adding new merchant
+  // Normalize date fields (Dayjs -> "YYYY-MM-DD")
+  const toISODate = (d) => (d ? dayjs(d).format("YYYY-MM-DD") : null);
+
+  // Add
   const handleAddMerchant = () => {
     form
       .validateFields()
       .then((values) => {
         const newMerchant = {
           id: data.length + 1,
-          ...values,
+          MarchantID: values.merchantName,
+          email: values.email,
+          subscriptionType: values.subscriptionType,
+          lastPaymentDate: toISODate(values.lastPaymentDate),
+          expiryDate: toISODate(values.expiryDate),
+          tier: values.tier,
           sales: values.sales || "$0",
           status: values.status || "Inactive",
           image: "https://i.ibb.co/8gh3mqPR/Ellipse-48-1.jpg",
+          name: values.name || "—",
+          businessName: values.businessName || "—",
+          phone: values.phone || "—",
+          location: values.location || "—",
+          feedback: 0,
         };
-        setData([...data, newMerchant]);
+        setData((prev) => [...prev, newMerchant]);
         setIsAddModalVisible(false);
         form.resetFields();
         message.success("New merchant added successfully!");
@@ -150,21 +165,24 @@ const SalesRepsManagementTable = () => {
       });
   };
 
-  // Handle updating existing merchant
+  // Update
   const handleUpdateMerchant = () => {
     form
       .validateFields()
       .then((values) => {
-        const updatedMerchant = {
+        const updated = {
           ...selectedRecord,
-          ...values,
+          MarchantID: values.merchantName,
+          email: values.email,
+          subscriptionType: values.subscriptionType,
+          lastPaymentDate: toISODate(values.lastPaymentDate),
+          expiryDate: toISODate(values.expiryDate),
+          tier: values.tier,
         };
-        setData(
-          data.map((item) =>
-            item.id === selectedRecord.id ? updatedMerchant : item
-          )
+        setData((prev) =>
+          prev.map((item) => (item.id === selectedRecord.id ? updated : item))
         );
-        setIsEditModalVisible(false); // Close the edit modal after update
+        setIsEditModalVisible(false);
         form.resetFields();
         message.success("Merchant updated successfully!");
       })
@@ -173,32 +191,43 @@ const SalesRepsManagementTable = () => {
       });
   };
 
-  // Show Add or Edit Modal based on the selected record
+  // Add or Edit modal
   const showAddOrEditModal = (record = null) => {
-    // setSelectedRecord(record);
     if (record) {
+      setSelectedRecord(record);
+      setIsViewModalVisible(false); // ✅ ensure the View modal is closed when editing
       form.setFieldsValue({
         merchantName: record.MarchantID,
         email: record.email,
         subscriptionType: record.subscriptionType,
-        lastPaymentDate: moment(record.lastPaymentDate), // Using moment.js to handle date
-        expiryDate: moment(record.expiryDate), // Using moment.js to handle date
+        lastPaymentDate: record.lastPaymentDate
+          ? dayjs(record.lastPaymentDate)
+          : null,
+        expiryDate: record.expiryDate ? dayjs(record.expiryDate) : null,
         tier: record.tier,
       });
-      setIsEditModalVisible(true); // Open the Edit Modal when editing
+      setIsEditModalVisible(true);
     } else {
+      setSelectedRecord(null);
+      setIsViewModalVisible(false); // optional: keep view closed when adding
       form.resetFields();
-      setIsAddModalVisible(true); // Open the Add Modal when adding
+      setIsAddModalVisible(true);
     }
   };
 
-  const filteredData = data.filter(
-    (item) =>
-      item.MarchantID.toString().includes(searchText) ||
-      item.businessName.toLowerCase().includes(searchText.toLowerCase()) ||
-      item.phone.toLowerCase().includes(searchText.toLowerCase()) ||
-      item.email.toLowerCase().includes(searchText.toLowerCase())
-  );
+  const filteredData = data.filter((item) => {
+    const idMatch = String(item.MarchantID || "").includes(searchText);
+    const businessMatch = (item.businessName || "")
+      .toLowerCase()
+      .includes(searchText.toLowerCase());
+    const phoneMatch = (item.phone || "")
+      .toLowerCase()
+      .includes(searchText.toLowerCase());
+    const emailMatch = (item.email || "")
+      .toLowerCase()
+      .includes(searchText.toLowerCase());
+    return idMatch || businessMatch || phoneMatch || emailMatch;
+  });
 
   const columns = [
     { title: "SL", dataIndex: "id", key: "id", align: "center" },
@@ -237,11 +266,7 @@ const SalesRepsManagementTable = () => {
       align: "center",
       render: (_, record) => (
         <Tooltip title="Customer Ratings">
-          <Rate
-            disabled
-            value={record.feedback}
-            style={{ fontSize: 16, color: "#FFD700" }}
-          />
+          <Rate disabled value={record.feedback} style={{ fontSize: 16 }} />
         </Tooltip>
       ),
     },
@@ -256,7 +281,7 @@ const SalesRepsManagementTable = () => {
         >
           <Tooltip title="View Details">
             <button
-              onClick={() => showViewModal(record)} // View modal
+              onClick={() => showViewModal(record)}
               className="text-primary hover:text-green-700 text-xl"
             >
               <IoEyeSharp />
@@ -265,7 +290,7 @@ const SalesRepsManagementTable = () => {
 
           <Tooltip title="Edit">
             <button
-              onClick={() => showAddOrEditModal(record)} // Edit modal
+              onClick={() => showAddOrEditModal(record)}
               className="text-primary hover:text-green-700 text-xl"
             >
               <FaEdit />
@@ -285,7 +310,9 @@ const SalesRepsManagementTable = () => {
                   confirmButtonText: "Yes, delete it!",
                 }).then((result) => {
                   if (result.isConfirmed) {
-                    setData(data.filter((item) => item.id !== record.id));
+                    setData((prev) =>
+                      prev.filter((item) => item.id !== record.id)
+                    );
                     Swal.fire({
                       title: "Deleted!",
                       text: "Your record has been deleted.",
@@ -364,7 +391,7 @@ const SalesRepsManagementTable = () => {
           />
           <Button
             className="bg-primary text-white hover:!text-black"
-            onClick={() => showAddOrEditModal()} // Add New Merchant
+            onClick={() => showAddOrEditModal()}
           >
             Add New Merchant
           </Button>
@@ -385,22 +412,26 @@ const SalesRepsManagementTable = () => {
           components={components}
           className="custom-table"
           scroll={{ x: "max-content" }}
+          rowKey="id"
         />
       </div>
 
       {/* View Modal */}
-      {selectedRecord && (
+      {isViewModalVisible && selectedRecord && (
         <ViewModal
-          visible={Boolean(selectedRecord)}
+          visible={isViewModalVisible} // if your ViewModal uses AntD v5, switch to `open`
           record={selectedRecord}
-          onCancel={() => setSelectedRecord(null)}
+          onCancel={() => {
+            setIsViewModalVisible(false);
+            setSelectedRecord(null);
+          }}
         />
       )}
 
       {/* Add or Edit Merchant Modal */}
       <AddEditModal
         visible={isAddModalVisible || isEditModalVisible}
-        selectedRecord={selectedRecord}
+        selectedRecord={isEditModalVisible ? selectedRecord : null} // ensures correct title/handler
         form={form}
         handleAddMerchant={handleAddMerchant}
         handleUpdateMerchant={handleUpdateMerchant}

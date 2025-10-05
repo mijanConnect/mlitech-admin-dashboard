@@ -295,6 +295,7 @@ export default function MonthlyStatsChartMerchant() {
                   onChange={(date) => setFromDate(date)}
                   style={{ width: "100%" }}
                   placeholder="Start Date"
+                  className="mli-tall-picker"
                 />
               </Form.Item>
             </Col>
@@ -306,6 +307,7 @@ export default function MonthlyStatsChartMerchant() {
                   onChange={(date) => setToDate(date)}
                   style={{ width: "100%" }}
                   placeholder="End Date"
+                  className="mli-tall-picker"
                 />
               </Form.Item>
             </Col>
@@ -316,7 +318,7 @@ export default function MonthlyStatsChartMerchant() {
                 style={{ marginBottom: "0.5rem" }}
               >
                 <Select
-                  className="mli-custom-select"
+                  className="mli-custom-select mli-tall-select"
                   showSearch
                   value={selectedMerchant}
                   style={{ width: "100%" }}
@@ -350,6 +352,7 @@ export default function MonthlyStatsChartMerchant() {
                     const label = String(option?.children ?? "");
                     return label.toLowerCase().includes(input.toLowerCase());
                   }}
+                  className="mli-tall-select"
                 >
                   {locationOptions.map((option) => (
                     <Option key={option} value={option}>
@@ -369,6 +372,7 @@ export default function MonthlyStatsChartMerchant() {
                   value={selectedSubscription}
                   style={{ width: "100%" }}
                   onChange={setSelectedSubscription}
+                  className="mli-tall-select"
                 >
                   {subscriptionOptions.map((option) => (
                     <Option key={option} value={option}>
@@ -391,6 +395,7 @@ export default function MonthlyStatsChartMerchant() {
                   value={selectedPayment}
                   style={{ width: "100%" }}
                   onChange={setSelectedPayment}
+                  className="mli-tall-select"
                 >
                   {paymentOptions.map((option) => (
                     <Option key={option} value={option}>
@@ -411,6 +416,7 @@ export default function MonthlyStatsChartMerchant() {
                   onChange={(date) => setToDate(date)}
                   style={{ width: "100%" }}
                   placeholder="End Date"
+                  className="mli-tall-picker"
                 />
               </Form.Item>
             </Col>
@@ -424,6 +430,7 @@ export default function MonthlyStatsChartMerchant() {
                   value={chartType}
                   style={{ width: "100%" }}
                   onChange={setChartType}
+                  className="mli-tall-select"
                 >
                   <Option value="Bar">Bar Chart</Option>
                   <Option value="Line">Line Chart</Option>
@@ -441,6 +448,7 @@ export default function MonthlyStatsChartMerchant() {
                   value={selectedMetric}
                   style={{ width: "100%" }}
                   onChange={setSelectedMetric}
+                  className="mli-tall-select"
                 >
                   <Option value="all">All Metrics</Option>
                   {metricOptions.map((option) => (

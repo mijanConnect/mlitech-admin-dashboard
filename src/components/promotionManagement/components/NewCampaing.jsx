@@ -78,7 +78,10 @@ const NewCampaign = ({ onSave, onCancel }) => {
               name="promotionName"
               rules={[{ required: true }]}
             >
-              <Input className="px-3" placeholder="Enter Promotion Name" />
+              <Input
+                className="px-3 mli-tall-input"
+                placeholder="Enter Promotion Name"
+              />
             </Form.Item>
 
             <Form.Item
@@ -86,7 +89,10 @@ const NewCampaign = ({ onSave, onCancel }) => {
               name="promotionType"
               rules={[{ required: true }]}
             >
-              <Select placeholder="Select Promotion Type">
+              <Select
+                placeholder="Select Promotion Type"
+                className="mli-tall-select"
+              >
                 <Option value="Seasonal">Seasonal</Option>
                 <Option value="Referral">Referral</Option>
                 <Option value="Flash Sale">Flash Sale</Option>
@@ -101,10 +107,8 @@ const NewCampaign = ({ onSave, onCancel }) => {
               name="customerReach"
               rules={[{ required: true }]}
             >
-              <InputNumber
-                min={1}
-                style={{ width: "100%" }}
-                className="px-3"
+              <Input
+                className="px-3 mli-tall-input"
                 placeholder="Enter Customer Reach"
               />
             </Form.Item>
@@ -114,7 +118,10 @@ const NewCampaign = ({ onSave, onCancel }) => {
               label="Customer Segment"
               rules={[{ required: true, message: "Please select a segment" }]}
             >
-              <Select placeholder="Select Customer Segment">
+              <Select
+                placeholder="Select Customer Segment"
+                className="mli-tall-select"
+              >
                 <Select.Option value="New Customers">
                   New Customers
                 </Select.Option>
@@ -137,11 +144,8 @@ const NewCampaign = ({ onSave, onCancel }) => {
               name="discountPercentage"
               rules={[{ required: true }]}
             >
-              <InputNumber
-                min={1}
-                max={100}
-                style={{ width: "100%" }}
-                className="px-3"
+              <Input
+                className="px-3 mli-tall-input"
                 placeholder="Enter Discount Percentage"
               />
             </Form.Item>
@@ -151,7 +155,10 @@ const NewCampaign = ({ onSave, onCancel }) => {
               name="dateRange"
               rules={[{ required: true }]}
             >
-              <RangePicker style={{ width: "100%" }} className="px-3" />
+              <RangePicker
+                style={{ width: "100%" }}
+                className="px-3 mli-tall-picker"
+              />
             </Form.Item>
           </div>
         </div>

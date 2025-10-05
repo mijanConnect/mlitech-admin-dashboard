@@ -47,7 +47,7 @@ const Main = () => {
         {/* Header with toggle button */}
         <Header toggleSidebar={toggleSidebar} isMobile={isMobile} />
 
-        <div className="flex-1 p-7 pt-0 overflow-auto mt-4">
+        <div className="flex-1 px-8 py-8 overflow-auto">
           <Outlet />
         </div>
       </div>

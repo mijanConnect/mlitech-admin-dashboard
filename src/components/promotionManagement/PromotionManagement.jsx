@@ -1,11 +1,21 @@
 "use client";
 import React, { useState } from "react";
-import { Table, Button, Switch, Form, Input, Tooltip, Modal } from "antd";
+import {
+  Table,
+  Button,
+  Switch,
+  Form,
+  Input,
+  Tooltip,
+  Modal,
+  DatePicker, // ✅ use AntD DatePicker
+} from "antd";
 import { FaEdit } from "react-icons/fa";
 import { IoEyeSharp, IoArrowBack } from "react-icons/io5";
 import Swal from "sweetalert2";
 import MarchantIcon from "../../assets/marchant.png";
 import NewCampaign from "../promotionManagement/components/NewCampaing.jsx";
+import dayjs from "dayjs"; // ✅ AntD v5 uses Dayjs
 
 const components = {
   header: {
@@ -84,9 +94,17 @@ const PromotionManagement = () => {
   };
 
   const handleEditSave = (values) => {
+    // ✅ Convert Dayjs from DatePicker back to "YYYY-MM-DD" strings (matches existing data shape)
+    const toISO = (v) => (dayjs.isDayjs(v) ? v.format("YYYY-MM-DD") : v);
+    const payload = {
+      ...values,
+      startDate: toISO(values.startDate),
+      endDate: toISO(values.endDate),
+    };
+
     setData((prev) =>
       prev.map((item) =>
-        item.id === selectedRecord.id ? { ...item, ...values } : item
+        item.id === selectedRecord.id ? { ...item, ...payload } : item
       )
     );
     setIsEditModalVisible(false);
@@ -365,7 +383,16 @@ const PromotionManagement = () => {
         {selectedRecord && (
           <Form
             layout="vertical"
-            initialValues={selectedRecord}
+            // ✅ Convert string dates to Dayjs for DatePicker initial values
+            initialValues={{
+              ...selectedRecord,
+              startDate: selectedRecord.startDate
+                ? dayjs(selectedRecord.startDate)
+                : null,
+              endDate: selectedRecord.endDate
+                ? dayjs(selectedRecord.endDate)
+                : null,
+            }}
             onFinish={handleEditSave}
           >
             <Form.Item
@@ -373,26 +400,37 @@ const PromotionManagement = () => {
               label="Promotion Name"
               rules={[{ required: true, message: "Please enter name" }]}
             >
-              <Input />
+              <Input className="mli-tall-input" />
             </Form.Item>
             <Form.Item name="promotionType" label="Promotion Type">
-              <Input />
+              <Input className="mli-tall-input" />
             </Form.Item>
             <Form.Item name="customerReach" label="Customer Reach">
-              <Input type="number" />
+              <Input type="number" className="mli-tall-input" />
             </Form.Item>
             <Form.Item name="customerSegment" label="Customer Segment">
-              <Input />
+              <Input className="mli-tall-input" />
             </Form.Item>
             <Form.Item name="discountPercentage" label="Discount Percentage">
-              <Input type="number" />
+              <Input type="number" className="mli-tall-input" />
             </Form.Item>
+
+            {/* ✅ Updated to AntD DatePicker like your reference */}
             <Form.Item name="startDate" label="Start Date">
-              <Input type="date" />
+              <DatePicker
+                className="mli-tall-picker"
+                style={{ width: "100%" }}
+                format="YYYY-MM-DD"
+              />
             </Form.Item>
             <Form.Item name="endDate" label="End Date">
-              <Input type="date" />
+              <DatePicker
+                className="mli-tall-picker"
+                style={{ width: "100%" }}
+                format="YYYY-MM-DD"
+              />
             </Form.Item>
+
             <div className="flex gap-2 mt-4">
               <Button
                 type="default"

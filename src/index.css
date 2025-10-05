@@ -326,3 +326,66 @@ select {
   color: #18191b;
   font-weight: bold;
 }
+
+/* +++++++++++++++++ MLI custom css +++++++++++++++++ */
+/* INPUT (handles normal & with prefix/suffix) */
+.mli-tall-input.ant-input,
+.mli-tall-input.ant-input-affix-wrapper {
+  height: 40px;
+  border: 1px solid #d8d8d8; /* added */
+}
+.mli-tall-input.ant-input {
+  line-height: 40px;
+} /* center text for plain inputs */
+.mli-tall-input.ant-input-affix-wrapper .ant-input {
+  height: 100%;
+}
+
+/* SELECT (single mode) */
+.mli-tall-select .ant-select-selector {
+  height: 40px !important;
+  /* These help keep the text vertically centered and leave space for the arrow */
+  display: flex !important;
+  align-items: center;
+  padding: 0 36px 0 12px !important; /* room on right for chevron */
+  border: 1px solid #d8d8d8 !important; /* added */
+}
+
+/* Keep placeholders/items vertically nice */
+.mli-tall-select .ant-select-selection-item,
+.mli-tall-select .ant-select-selection-placeholder {
+  line-height: 40px !important;
+}
+
+/* Search input height when typing */
+.mli-tall-select .ant-select-selection-search-input {
+  height: 40px !important;
+}
+
+/* --- Center the dropdown chevron (down arrow) vertically --- */
+.mli-tall-select .ant-select-arrow {
+  top: 75% !important;
+  bottom: auto !important;
+  transform: translateY(-50%) !important;
+  right: 11px; /* aligns with AntD default padding */
+  height: 40px; /* match control height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* If clear (×) is enabled, center that too */
+.mli-tall-select .ant-select-clear {
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+}
+
+/* DATE PICKER */
+.mli-tall-picker.ant-picker {
+  height: 40px;
+  border: 1px solid #d8d8d8; /* added */
+}
+.mli-tall-picker .ant-picker-input > input {
+  height: 40px;
+  line-height: 40px;
+}

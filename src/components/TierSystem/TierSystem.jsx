@@ -48,9 +48,7 @@ export default function TierSystem() {
   const handleSave = (values) => {
     if (editingTier) {
       setTiers((prev) =>
-        prev.map((t) =>
-          t.name === editingTier.name ? { ...t, ...values } : t
-        )
+        prev.map((t) => (t.name === editingTier.name ? { ...t, ...values } : t))
       );
     } else {
       setTiers((prev) => [...prev, { ...values, active: true }]);
@@ -86,16 +84,14 @@ export default function TierSystem() {
   // Toggle tier active status
   const toggleActive = (tierName) => {
     setTiers((prev) =>
-      prev.map((t) =>
-        t.name === tierName ? { ...t, active: !t.active } : t
-      )
+      prev.map((t) => (t.name === tierName ? { ...t, active: !t.active } : t))
     );
   };
 
   return (
     <div>
       {/* Header */}
-      <div className="flex justify-between items-center mb-6 px-8">
+      <div className="flex justify-between items-center mb-6">
         <div>
           <h1 className="text-[24px] font-bold">Point & Tier System</h1>
           <p className="text-[16px] font-normal mt-2">
@@ -172,7 +168,12 @@ export default function TierSystem() {
       >
         <Form
           layout="vertical"
-          initialValues={editingTier || { lockoutDuration: 0, pointsSystemLockoutDuration: 0 }}
+          initialValues={
+            editingTier || {
+              lockoutDuration: 0,
+              pointsSystemLockoutDuration: 0,
+            }
+          }
           onFinish={handleSave}
         >
           <Form.Item
@@ -180,35 +181,42 @@ export default function TierSystem() {
             name="name"
             rules={[{ required: true, message: "Please enter tier name" }]}
           >
-            <Input type="text" />
+            <Input type="text" className="mli-tall-input" />
           </Form.Item>
           <Form.Item
             label="Points Threshold"
             name="threshold"
             rules={[{ required: true, message: "Please enter threshold" }]}
           >
-            <Input type="number" />
+            <Input type="number" className="mli-tall-input" />
           </Form.Item>
           <Form.Item
             label="Reward"
             name="reward"
             rules={[{ required: true, message: "Please enter reward" }]}
           >
-            <Input />
+            <Input className="mli-tall-input" />
           </Form.Item>
           <Form.Item
             label="Tier Lockout Duration (Month)"
             name="lockoutDuration"
-            rules={[{ required: true, message: "Please enter lockout duration" }]}
+            rules={[
+              { required: true, message: "Please enter lockout duration" },
+            ]}
           >
-            <Input type="number" />
+            <Input type="number" className="mli-tall-input" />
           </Form.Item>
           <Form.Item
             label="Points System Lockout Duration (Month)"
             name="pointsSystemLockoutDuration"
-            rules={[{ required: true, message: "Please enter points system lockout duration" }]}
+            rules={[
+              {
+                required: true,
+                message: "Please enter points system lockout duration",
+              },
+            ]}
           >
-            <Input type="number" />
+            <Input type="number" className="mli-tall-input" />
           </Form.Item>
           <div className="flex justify-end gap-2">
             <Button onClick={handleCancel} className="border border-primary">

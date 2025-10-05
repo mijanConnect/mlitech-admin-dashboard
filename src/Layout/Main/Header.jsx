@@ -39,7 +39,7 @@ const Header = ({ toggleSidebar, isMobile }) => {
   );
 
   return (
-    <div className="flex items-center justify-between gap-5 w-full px-4 rounded-md lg:px-10 shadow-sm py-2">
+    <div className="flex items-center justify-between gap-5 w-full rounded-md px-8 shadow-sm py-2">
       <div className="flex items-center gap-4">
         {/* Mobile Sidebar Toggle */}
         {isMobile && (
