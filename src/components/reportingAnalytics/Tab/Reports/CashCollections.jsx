@@ -1,12 +1,13 @@
-import React, { useState } from "react";
-import { Table, DatePicker, Row, Col, Button } from "antd";
+import { Button, DatePicker, Table } from "antd";
 import "antd/dist/reset.css";
 import dayjs from "dayjs";
+import { useState } from "react";
 
 // Sample data for cash receivable
 const data = [
   {
     sl: 1,
+    merchantId: 101,
     salesRep: "John Doe",
     pendingTransactions: 5,
     totalReceivable: 1200.5,
@@ -14,6 +15,7 @@ const data = [
   },
   {
     sl: 2,
+    merchantId: 102,
     salesRep: "Jane Smith",
     pendingTransactions: 3,
     totalReceivable: 850.0,
@@ -21,6 +23,7 @@ const data = [
   },
   {
     sl: 3,
+    merchantId: 103,
     salesRep: "Alice Johnson",
     pendingTransactions: 7,
     totalReceivable: 1500.0,
@@ -36,6 +39,12 @@ const columns = [
     key: "sl",
     align: "center",
     render: (_, __, index) => index + 1,
+  },
+  {
+    title: "Merchant ID",
+    dataIndex: "merchantId",
+    key: "merchantId",
+    align: "center",
   },
   {
     title: "Sales Rep",

@@ -1,27 +1,36 @@
-import React, { useState } from "react";
-import { Table, DatePicker, Row, Col, Button } from "antd";
+import { Button, DatePicker, Table } from "antd";
 import "antd/dist/reset.css";
 import dayjs from "dayjs";
+import { useState } from "react";
 
 // Sample data for cash receivable
 const data = [
   {
     sl: 1,
     date: "2025-01-01",
+    merchantId: "M-1001",
     transactions: 5,
     totalCollected: 1200.5,
+    salesRep: "John Doe",
+    location: "Chicago",
   },
   {
     sl: 2,
     date: "2025-02-01",
+    merchantId: "M-1002",
     transactions: 3,
     totalCollected: 850.0,
+    salesRep: "Jane Smith",
+    location: "Los Angeles",
   },
   {
     sl: 3,
     date: "2025-03-01",
+    merchantId: "M-1003",
     transactions: 7,
     totalCollected: 1500.0,
+    salesRep: "Alice Johnson",
+    location: "New York",
   },
 ];
 
@@ -34,7 +43,25 @@ const columns = [
     align: "center",
     render: (_, __, index) => index + 1,
   },
+  {
+    title: "Merchant ID",
+    dataIndex: "merchantId",
+    key: "merchantId",
+    align: "center",
+  },
+  {
+    title: "Sales Rep",
+    dataIndex: "salesRep",
+    key: "salesRep",
+    align: "center",
+  },
   { title: "Date", dataIndex: "date", key: "date", align: "center" },
+  {
+    title: "Location",
+    dataIndex: "location",
+    key: "location",
+    align: "center",
+  },
   {
     title: "Transactions",
     dataIndex: "transactions",
@@ -79,6 +106,9 @@ export default function CashReceivable() {
     setToDate(date);
     handleDateChange(); // Trigger the date filter when "To" date changes
   };
+
+  // Debug log to inspect filtered data at runtime
+  console.log("CashReceivable filteredData:", filteredData);
 
   return (
     <div style={{ width: "100%" }}>

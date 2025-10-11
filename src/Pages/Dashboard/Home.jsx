@@ -21,6 +21,7 @@ import { Marchant } from "../../components/common/Svg";
 import { People } from "../../components/common/Svg";
 import { Pending } from "../../components/common/Svg";
 import { SubscriptionManagement } from "../../components/common/Svg";
+import BarChart from "./BarChart";
 
 ChartJS.register(
   CategoryScale,
@@ -202,9 +203,13 @@ const Home = () => {
       </div>
 
       {/* Order Table */}
-      <div>
+      {/* <div>
         <OrderTable />
-        {/* <SalesLeaderBoard /> */}
+      </div> */}
+
+      {/* Bar Chart Section */}
+      <div className="flex-1 border border-primary bg-[#D7F4DE] rounded-lg p-6">
+        <BarChart />
       </div>
     </div>
   );

@@ -175,6 +175,7 @@ export default function TierSystem() {
             }
           }
           onFinish={handleSave}
+          className="flex flex-col gap-4"
         >
           <Form.Item
             label="Tier Name"
@@ -218,7 +219,7 @@ export default function TierSystem() {
           >
             <Input type="number" className="mli-tall-input" />
           </Form.Item>
-          <div className="flex justify-end gap-2">
+          <div className="flex justify-end gap-2 mt-4">
             <Button onClick={handleCancel} className="border border-primary">
               Cancel
             </Button>

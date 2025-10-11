@@ -69,10 +69,10 @@ const NewCampaign = ({ onSave, onCancel }) => {
 
   return (
     <div>
-      <h2 className="text-lg font-bold mb-4">Add New Promotion</h2>
-      <Form layout="vertical" form={form} onFinish={handleSubmit}>
+      {/* <h2 className="text-lg font-bold mb-4">Add New Promotion</h2> */}
+      <Form layout="vertical" form={form} onFinish={handleSubmit} className="flex flex-col gap-4">
         <div className="flex flex-row justify-between gap-4">
-          <div className="w-full">
+          <div className="w-full flex flex-col gap-4">
             <Form.Item
               label="Promotion Name"
               name="promotionName"
@@ -101,7 +101,7 @@ const NewCampaign = ({ onSave, onCancel }) => {
             </Form.Item>
           </div>
 
-          <div className="w-full">
+          <div className="w-full flex flex-col gap-4">
             <Form.Item
               label="Customer Reach"
               name="customerReach"
@@ -138,7 +138,7 @@ const NewCampaign = ({ onSave, onCancel }) => {
             </Form.Item>
           </div>
 
-          <div className="w-full">
+          <div className="w-full flex flex-col gap-4">
             <Form.Item
               label="Discount Percentage"
               name="discountPercentage"

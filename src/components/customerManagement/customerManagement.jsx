@@ -1,22 +1,21 @@
 "use client";
-import React, { useState } from "react";
 import {
-  Table,
   Button,
-  Modal,
+  DatePicker,
   Form,
   Input,
-  Tooltip,
+  Modal,
   Switch,
-  DatePicker,
+  Table,
+  Tooltip,
 } from "antd";
-import { useNavigate } from "react-router-dom";
-import { FaTrash } from "react-icons/fa";
-import { FaEdit } from "react-icons/fa";
+import dayjs from "dayjs"; // ✅ AntD v5 uses Dayjs
+import { useState } from "react";
+import { FaEdit, FaTrash } from "react-icons/fa";
 import { IoEyeSharp } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import MarchantIcon from "../../assets/marchant.png";
-import dayjs from "dayjs"; // ✅ AntD v5 uses Dayjs
 
 const components = {
   header: {
@@ -205,7 +204,8 @@ const CustomerManagement = () => {
       item.id.toString().includes(searchText) ||
       item.name.toLowerCase().includes(searchText.toLowerCase()) ||
       item.phone.includes(searchText) ||
-      item.email.toLowerCase().includes(searchText.toLowerCase())
+      item.email.toLowerCase().includes(searchText.toLowerCase()) ||
+      (item.location || "").toLowerCase().includes(searchText.toLowerCase())
   );
 
   const columns = [
@@ -467,8 +467,13 @@ const CustomerManagement = () => {
         visible={isEditModalVisible}
         onCancel={handleCloseEditModal}
         onOk={handleEditSubmit}
+        width={600}
       >
-        <Form form={form} layout="vertical">
+        <Form
+          form={form}
+          layout="vertical"
+          className="flex flex-col gap-4 mb-6"
+        >
           <Form.Item
             label="Customer Name"
             name="name"

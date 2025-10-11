@@ -308,16 +308,18 @@ const LoginCredentials = () => {
       <Modal
         visible={isViewModalVisible}
         onCancel={handleCloseViewModal}
-        width={700}
+        width={600}
         onOk={handleUpdateRecord}
         okText="Save Changes"
+        title="User Management"
       >
         {selectedRecord && (
-          <div className="flex flex-col gap-2 w-full rounded-md p-4 mb-6">
-            <p className="text-[22px] font-bold text-primary">
-              User Management
-            </p>
-            <Form form={viewForm} layout="vertical">
+          <div className="flex flex-col gap-2 w-full mb-6">
+            <Form
+              form={viewForm}
+              layout="vertical"
+              className="flex flex-col gap-4"
+            >
               <Form.Item name="name" label="User Name">
                 <Input className="mli-tall-input" />
               </Form.Item>
@@ -358,7 +360,7 @@ const LoginCredentials = () => {
         onOk={handleAddRole}
         okText="Add Role"
       >
-        <Form form={roleForm} layout="vertical">
+        <Form form={roleForm} layout="vertical" className="flex flex-col gap-4 mb-6">
           <Form.Item
             name="roleName"
             label="Role Name"
@@ -382,9 +384,9 @@ const LoginCredentials = () => {
         onCancel={() => setIsUserModalVisible(false)}
         onOk={handleAddUser}
         okText="Add User"
-        width={700}
+        width={600}
       >
-        <Form form={userForm} layout="vertical">
+        <Form form={userForm} layout="vertical" className="flex flex-col gap-4 mb-6">
           <Form.Item
             name="name"
             label="User Name"

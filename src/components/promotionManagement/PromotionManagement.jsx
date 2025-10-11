@@ -394,6 +394,7 @@ const PromotionManagement = () => {
                 : null,
             }}
             onFinish={handleEditSave}
+            className="flex flex-col gap-4"
           >
             <Form.Item
               name="promotionName"
@@ -449,7 +450,7 @@ const PromotionManagement = () => {
 
       {/* New Campaign Modal */}
       <Modal
-        title="New Promotion"
+        title="Add New Promotion"
         visible={isNewCampaignModalVisible}
         onCancel={() => setIsNewCampaignModalVisible(false)}
         footer={null}

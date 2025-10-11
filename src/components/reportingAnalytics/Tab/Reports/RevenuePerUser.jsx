@@ -1,12 +1,13 @@
-import React, { useState } from "react";
-import { Table, DatePicker, Row, Col, Button } from "antd";
+import { Button, DatePicker, Table } from "antd";
 import "antd/dist/reset.css";
 import dayjs from "dayjs";
+import { useState } from "react";
 
 // Sample data for revenue per user with added date field
 const data = [
   {
     sl: 1,
+    customerId: "C-2001",
     customers: "Alice",
     transactions: 120,
     totalRevenue: 3000.5,
@@ -14,6 +15,7 @@ const data = [
   },
   {
     sl: 2,
+    customerId: "C-2002",
     customers: "Jhon",
     transactions: 95,
     totalRevenue: 2200.0,
@@ -21,6 +23,7 @@ const data = [
   },
   {
     sl: 3,
+    customerId: "C-2003",
     customers: "Doe",
     transactions: 150,
     totalRevenue: 5000.0,
@@ -36,6 +39,12 @@ const columns = [
     key: "sl",
     align: "center",
     render: (_, __, index) => index + 1,
+  },
+  {
+    title: "Customer ID",
+    dataIndex: "customerId",
+    key: "customerId",
+    align: "center",
   },
   {
     title: "Customers",

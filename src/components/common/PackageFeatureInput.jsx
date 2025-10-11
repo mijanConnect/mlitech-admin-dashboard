@@ -42,7 +42,7 @@ const FeaturedInput = ({ value = [], onChange }) => {
               >
                 <Input
                   placeholder="Feature name"
-                  className="w-full mli-tall-input"
+                  className="w-full mli-tall-input mb-4"
                   value={value[index] || ""}
                   onChange={(e) => {
                     const newValues = [...value];

@@ -1,19 +1,18 @@
-import React, { useState } from "react";
 import {
-  Table,
   Button,
-  Input,
-  Tooltip,
-  Switch,
-  Rate,
-  message,
   Form,
+  Input,
+  Rate,
+  Switch,
+  Table,
+  Tooltip,
+  message,
 } from "antd";
-import { FaTrash } from "react-icons/fa";
-import { FaEdit } from "react-icons/fa";
+import dayjs from "dayjs"; // AntD v5 uses Dayjs
+import { useState } from "react";
+import { FaEdit, FaTrash } from "react-icons/fa";
 import { IoEyeSharp } from "react-icons/io5";
 import Swal from "sweetalert2";
-import dayjs from "dayjs"; // AntD v5 uses Dayjs
 import AddEditModal from "./custom/AddEditModal";
 import ViewModal from "./custom/ViewModal";
 
@@ -147,7 +146,8 @@ const SalesRepsManagementTable = () => {
           expiryDate: toISODate(values.expiryDate),
           tier: values.tier,
           sales: values.sales || "$0",
-          status: values.status || "Inactive",
+          // New merchants start as Pending and require Add/Reject
+          status: values.status || "Pending",
           image: "https://i.ibb.co/8gh3mqPR/Ellipse-48-1.jpg",
           name: values.name || "—",
           businessName: values.businessName || "—",
@@ -205,6 +205,10 @@ const SalesRepsManagementTable = () => {
           : null,
         expiryDate: record.expiryDate ? dayjs(record.expiryDate) : null,
         tier: record.tier,
+        name: record.name,
+        businessName: record.businessName,
+        phone: record.phone,
+        location: record.location,
       });
       setIsEditModalVisible(true);
     } else {
@@ -226,7 +230,12 @@ const SalesRepsManagementTable = () => {
     const emailMatch = (item.email || "")
       .toLowerCase()
       .includes(searchText.toLowerCase());
-    return idMatch || businessMatch || phoneMatch || emailMatch;
+    const locationMatch = (item.location || "")
+      .toLowerCase()
+      .includes(searchText.toLowerCase());
+    return (
+      idMatch || businessMatch || phoneMatch || emailMatch || locationMatch
+    );
   });
 
   const columns = [
@@ -274,100 +283,158 @@ const SalesRepsManagementTable = () => {
       title: "Action",
       key: "action",
       align: "center",
-      render: (_, record) => (
-        <div
-          className="flex gap-2 justify-between align-middle py-[7px] px-[15px] border border-primary rounded-md"
-          style={{ alignItems: "center" }}
-        >
-          <Tooltip title="View Details">
-            <button
-              onClick={() => showViewModal(record)}
-              className="text-primary hover:text-green-700 text-xl"
-            >
-              <IoEyeSharp />
-            </button>
-          </Tooltip>
+      render: (_, record) => {
+        // If merchant is pending show Add and Reject actions
+        if (record.status === "Pending") {
+          return (
+            <div className="flex gap-2 justify-center items-center py-[7px] px-[15px]">
+              <button
+                onClick={() => {
+                  // Approve (add) merchant: change status to Active so existing actions become available
+                  setData((prev) =>
+                    prev.map((item) =>
+                      item.id === record.id
+                        ? { ...item, status: "Active" }
+                        : item
+                    )
+                  );
+                  message.success("Merchant approved and added.");
+                }}
+                className="bg-green-500 text-white px-3 py-1 rounded-md hover:opacity-90"
+              >
+                Add
+              </button>
 
-          <Tooltip title="Edit">
-            <button
-              onClick={() => showAddOrEditModal(record)}
-              className="text-primary hover:text-green-700 text-xl"
-            >
-              <FaEdit />
-            </button>
-          </Tooltip>
+              <button
+                onClick={() => {
+                  Swal.fire({
+                    title: "Reject merchant?",
+                    text: "This will remove the merchant from the list.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, reject",
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      setData((prev) =>
+                        prev.filter((item) => item.id !== record.id)
+                      );
+                      Swal.fire({
+                        title: "Rejected",
+                        text: "Merchant has been rejected and removed.",
+                        icon: "success",
+                        timer: 1500,
+                        showConfirmButton: false,
+                      });
+                    }
+                  });
+                }}
+                className="bg-red-500 text-white px-3 py-1 rounded-md hover:opacity-90"
+              >
+                Reject
+              </button>
+            </div>
+          );
+        }
 
-          <Tooltip title="Delete">
-            <button
-              onClick={() => {
+        // Otherwise show the regular action set
+        return (
+          <div
+            className="flex gap-2 justify-between align-middle py-[7px] px-[15px] border border-primary rounded-md"
+            style={{ alignItems: "center" }}
+          >
+            <Tooltip title="View Details">
+              <button
+                onClick={() => showViewModal(record)}
+                className="text-primary hover:text-green-700 text-xl"
+              >
+                <IoEyeSharp />
+              </button>
+            </Tooltip>
+
+            <Tooltip title="Edit">
+              <button
+                onClick={() => showAddOrEditModal(record)}
+                className="text-primary hover:text-green-700 text-xl"
+              >
+                <FaEdit />
+              </button>
+            </Tooltip>
+
+            <Tooltip title="Delete">
+              <button
+                onClick={() => {
+                  Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!",
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      setData((prev) =>
+                        prev.filter((item) => item.id !== record.id)
+                      );
+                      Swal.fire({
+                        title: "Deleted!",
+                        text: "Your record has been deleted.",
+                        icon: "success",
+                      });
+                    }
+                  });
+                }}
+                className="text-red-500 hover:text-red-700 text-md"
+              >
+                <FaTrash />
+              </button>
+            </Tooltip>
+
+            <Switch
+              size="small"
+              checked={record.status === "Active"}
+              style={{
+                backgroundColor:
+                  record.status === "Active" ? "#3fae6a" : "gray",
+              }}
+              onChange={(checked) => {
                 Swal.fire({
                   title: "Are you sure?",
-                  text: "You won't be able to revert this!",
+                  text: `You are about to change status to ${
+                    checked ? "Active" : "Inactive"
+                  }.`,
                   icon: "warning",
                   showCancelButton: true,
                   confirmButtonColor: "#3085d6",
                   cancelButtonColor: "#d33",
-                  confirmButtonText: "Yes, delete it!",
+                  confirmButtonText: "Yes, change it!",
                 }).then((result) => {
                   if (result.isConfirmed) {
                     setData((prev) =>
-                      prev.filter((item) => item.id !== record.id)
+                      prev.map((item) =>
+                        item.id === record.id
+                          ? { ...item, status: checked ? "Active" : "Inactive" }
+                          : item
+                      )
                     );
                     Swal.fire({
-                      title: "Deleted!",
-                      text: "Your record has been deleted.",
+                      title: "Updated!",
+                      text: `Status has been changed to ${
+                        checked ? "Active" : "Inactive"
+                      }.`,
                       icon: "success",
+                      timer: 1500,
+                      showConfirmButton: false,
                     });
                   }
                 });
               }}
-              className="text-red-500 hover:text-red-700 text-md"
-            >
-              <FaTrash />
-            </button>
-          </Tooltip>
-
-          <Switch
-            size="small"
-            checked={record.status === "Active"}
-            style={{
-              backgroundColor: record.status === "Active" ? "#3fae6a" : "gray",
-            }}
-            onChange={(checked) => {
-              Swal.fire({
-                title: "Are you sure?",
-                text: `You are about to change status to ${
-                  checked ? "Active" : "Inactive"
-                }.`,
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, change it!",
-              }).then((result) => {
-                if (result.isConfirmed) {
-                  setData((prev) =>
-                    prev.map((item) =>
-                      item.id === record.id
-                        ? { ...item, status: checked ? "Active" : "Inactive" }
-                        : item
-                    )
-                  );
-                  Swal.fire({
-                    title: "Updated!",
-                    text: `Status has been changed to ${
-                      checked ? "Active" : "Inactive"
-                    }.`,
-                    icon: "success",
-                    timer: 1500,
-                    showConfirmButton: false,
-                  });
-                }
-              });
-            }}
-          />
-        </div>
-      ),
+            />
+          </div>
+        );
+      },
     },
   ];
 
@@ -383,7 +450,7 @@ const SalesRepsManagementTable = () => {
 
         <div className="flex md:flex-row flex-col items-start gap-2">
           <Input.Search
-            placeholder="Search by ID, Business, Phone, Email"
+            placeholder="Search by ID, Business, Phone, Email, Location"
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
             style={{ width: 300 }}
@@ -419,7 +486,7 @@ const SalesRepsManagementTable = () => {
       {/* View Modal */}
       {isViewModalVisible && selectedRecord && (
         <ViewModal
-          visible={isViewModalVisible} // if your ViewModal uses AntD v5, switch to `open`
+          visible={isViewModalVisible}
           record={selectedRecord}
           onCancel={() => {
             setIsViewModalVisible(false);
@@ -431,7 +498,7 @@ const SalesRepsManagementTable = () => {
       {/* Add or Edit Merchant Modal */}
       <AddEditModal
         visible={isAddModalVisible || isEditModalVisible}
-        selectedRecord={isEditModalVisible ? selectedRecord : null} // ensures correct title/handler
+        selectedRecord={isEditModalVisible ? selectedRecord : null}
         form={form}
         handleAddMerchant={handleAddMerchant}
         handleUpdateMerchant={handleUpdateMerchant}

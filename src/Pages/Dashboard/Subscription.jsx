@@ -336,7 +336,7 @@ const PackagesPlans = () => {
         className="rounded-lg"
         width={600}
       >
-        <Form form={form} layout="vertical" onFinish={handleSubmit}>
+        <Form form={form} layout="vertical" onFinish={handleSubmit} className="flex flex-col gap-4 ">
           <Form.Item
             name="title"
             label="Package Title"
