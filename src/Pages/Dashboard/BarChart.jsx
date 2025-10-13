@@ -24,11 +24,16 @@ const BarChart = () => {
   const [chartHeight, setChartHeight] = useState("200px");
   // responsive bar thickness so bars don't touch on small screens
   const [barThickness, setBarThickness] = useState(() => {
+    // Start at 90 on very large screens and step down as viewport shrinks
     const w = typeof window !== "undefined" ? window.innerWidth : 1024;
     if (w < 480) return 14;
     if (w < 768) return 20;
-    if (w < 1024) return 30;
-    return 50;
+    if (w < 900) return 30;
+    if (w < 1024) return 40;
+    if (w < 1280) return 50;
+    if (w < 1600) return 60;
+    if (w < 1920) return 80;
+    return 90;
   });
 
   // Effect to update chart height based on screen size
@@ -38,10 +43,15 @@ const BarChart = () => {
       else if (window.innerWidth < 1024) setChartHeight("200px");
       else setChartHeight("250px");
       // update bar thickness responsively
-      if (window.innerWidth < 480) setBarThickness(14);
-      else if (window.innerWidth < 768) setBarThickness(20);
-      else if (window.innerWidth < 1024) setBarThickness(30);
-      else setBarThickness(50);
+      const w = window.innerWidth;
+      if (w < 480) setBarThickness(14);
+      else if (w < 768) setBarThickness(20);
+      else if (w < 900) setBarThickness(30);
+      else if (w < 1024) setBarThickness(40);
+      else if (w < 1280) setBarThickness(50);
+      else if (w < 1600) setBarThickness(60);
+      else if (w < 1920) setBarThickness(80);
+      else setBarThickness(90);
     };
 
     updateChartHeight();

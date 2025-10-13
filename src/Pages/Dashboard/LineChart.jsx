@@ -1,17 +1,17 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
-import { Line } from "react-chartjs-2";
 import {
-  Chart as ChartJS,
   CategoryScale,
+  Chart as ChartJS,
+  Legend,
   LinearScale,
-  PointElement,
   LineElement,
+  PointElement,
   Title,
   Tooltip,
-  Legend,
 } from "chart.js";
+import { useEffect, useMemo, useState } from "react";
+import { Line } from "react-chartjs-2";
 
 ChartJS.register(
   CategoryScale,
@@ -66,9 +66,9 @@ const LineChart = () => {
   // Period state (consistent with reports)
   const [rangeOpen, setRangeOpen] = useState(false);
   const [start, setStart] = useState(() => {
-    // default: last 90 days
+    // default: last 365 days (approx. 12 months)
     const endD = new Date();
-    const startD = addDays(endD, -90);
+    const startD = addDays(endD, -365);
     return new Date(
       Date.UTC(
         startD.getUTCFullYear(),
@@ -125,6 +125,8 @@ const LineChart = () => {
           pointBorderColor: "#198248",
           pointBackgroundColor: "#3fae6a",
           pointRadius: 4,
+          // increase the hit area so hovering near the line triggers the tooltip
+          pointHitRadius: 12,
         },
       ],
     };
@@ -148,6 +150,15 @@ const LineChart = () => {
             label: (ctx) => `$${Number(ctx.raw ?? 0).toLocaleString()}`,
           },
         },
+      },
+      // allow tooltips when hovering near the line (not only on the exact points)
+      interaction: {
+        mode: "nearest",
+        intersect: false,
+      },
+      hover: {
+        mode: "nearest",
+        intersect: false,
       },
       scales: {
         x: {
