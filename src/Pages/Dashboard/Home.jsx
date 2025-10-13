@@ -109,7 +109,7 @@ const Home = () => {
         </div>
       </div> */}
 
-      <div className="flex flex-col xl:flex-row gap-10 rounded-lg">
+      <div className="flex flex-col xl:flex-row gap-7 rounded-lg">
         {/* Line Chart Section */}
         <div className="w-full xl:flex-1 border border-primary bg-[#D7F4DE] rounded-lg p-6">
           <LineChart />

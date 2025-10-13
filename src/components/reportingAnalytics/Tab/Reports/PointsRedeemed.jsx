@@ -30,13 +30,13 @@ const data = [
 
 // Table columns
 const columns = [
-  {
-    title: "SL",
-    dataIndex: "sl",
-    key: "sl",
-    align: "center",
-    render: (_, __, index) => index + 1,
-  },
+  // {
+  //   title: "SL",
+  //   dataIndex: "sl",
+  //   key: "sl",
+  //   align: "center",
+  //   render: (_, __, index) => index + 1,
+  // },
   { title: "Period", dataIndex: "period", key: "period", align: "center" },
   {
     title: "Redemptions",

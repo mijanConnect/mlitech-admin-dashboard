@@ -406,7 +406,7 @@ export default function MonthlyStatsChartMerchant() {
               </Form.Item>
             </Col>
 
-            <Col flex="1 1 220px">
+            {/* <Col flex="1 1 220px">
               <Form.Item
                 label="Days to Expire"
                 style={{ marginBottom: "0.5rem" }}
@@ -419,7 +419,7 @@ export default function MonthlyStatsChartMerchant() {
                   className="mli-tall-picker"
                 />
               </Form.Item>
-            </Col>
+            </Col> */}
 
             <Col flex="1 1 220px">
               <Form.Item

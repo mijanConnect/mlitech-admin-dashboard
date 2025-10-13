@@ -33,13 +33,13 @@ const data = [
 
 // Table columns
 const columns = [
-  {
-    title: "SL",
-    dataIndex: "sl",
-    key: "sl",
-    align: "center",
-    render: (_, __, index) => index + 1,
-  },
+  // {
+  //   title: "SL",
+  //   dataIndex: "sl",
+  //   key: "sl",
+  //   align: "center",
+  //   render: (_, __, index) => index + 1,
+  // },
   {
     title: "Customer ID",
     dataIndex: "customerId",
