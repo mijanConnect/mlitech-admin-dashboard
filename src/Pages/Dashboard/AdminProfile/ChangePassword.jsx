@@ -21,9 +21,11 @@ const ChangePassword = () => {
             initialValues={{
               remember: true,
             }}
-            style={{
-              // width: "80%",
-            }}
+            style={
+              {
+                // width: "80%",
+              }
+            }
             onFinish={handleChangePassword}
           >
             <div className="mb-[20px] w-[100%]">
@@ -136,29 +138,15 @@ const ChangePassword = () => {
             </div>
 
             {/* Center the Button using Flexbox */}
-            <div
-              className="flex justify-center mb-[20px]"
-              style={{
-                width: "100%",
-              }}
-            >
-              <Form.Item>
-                <GradientButton
-                  type="primary"
+            <div className="flex justify-center mb-[20px] w-full">
+              <Form.Item className="w-full">
+                <Button
                   htmlType="submit"
                   block
-                  style={{
-                    border: "none",
-                    height: "40px",
-                    background: "#1D75F2",
-                    color: "white",
-                    borderRadius: "8px",
-                    outline: "none",
-                    width: "150px",
-                  }}
+                  className="bg-primary px-8 py-5 rounded-lg text-white hover:text-secondary text-[17px] font-bold"
                 >
-                  Update your password
-                </GradientButton>
+                  Update Your Password
+                </Button>
               </Form.Item>
             </div>
           </Form>

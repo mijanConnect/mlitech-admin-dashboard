@@ -23,7 +23,7 @@ const Login = () => {
         </h1>
         <p>Welcome back! Please enter your details.</p>
       </div>
-      <Form onFinish={onFinish} layout="vertical">
+      <Form onFinish={onFinish} layout="vertical" className="flex flex-col gap-4">
         <FormItem name={"email"} label={"Email"} />
 
         <Form.Item

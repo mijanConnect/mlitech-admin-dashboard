@@ -289,14 +289,14 @@ const UserProfile = () => {
           </Form.Item> */}
 
           {/* Update Profile Button */}
-          <div className="col-span-2 text-end mt-6">
+          <div className="col-span-2 text-end mt-2">
             <Form.Item>
               {/* Option 1: Use standard Ant Design Button */}
               <Button
-                type="primary"
                 htmlType="submit"
                 block
                 style={{ height: 40 }}
+                className="bg-primary px-8 py-5 rounded-lg text-white hover:text-secondary text-[17px] font-bold"
               >
                 Save Changes
               </Button>

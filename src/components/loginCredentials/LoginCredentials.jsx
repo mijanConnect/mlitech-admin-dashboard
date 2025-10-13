@@ -266,25 +266,23 @@ const LoginCredentials = () => {
 
   return (
     <div>
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0 mb-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-2 sm:gap-0 mb-4">
         <div>
           <h1 className="text-[24px] font-bold">User Management</h1>
           <p className="text-[16px] font-normal mt-2">
             Access your account securely with your login credentials.
           </p>
         </div>
-        <div className="flex gap-5">
+        <div className="flex gap-4">
           <Button
-            type="primary"
             onClick={() => setIsUserModalVisible(true)}
-            className="bg-primary !text-white hover:!text-secondary hover:!bg-white hover:!border-primary px-[30px] py-[25px] rounded-full text-[18px] font-bold"
+            className="bg-primary px-8 py-5 rounded-full text-white hover:text-secondary text-[17px] font-bold"
           >
             Add New User
           </Button>
           <Button
-            type="primary"
             onClick={() => setIsRoleModalVisible(true)}
-            className="bg-primary !text-white hover:!text-secondary hover:!bg-white hover:!border-primary px-[30px] py-[25px] rounded-full text-[18px] font-bold"
+            className="bg-primary px-8 py-5 rounded-full text-white hover:text-secondary text-[17px] font-bold"
           >
             Add New Role
           </Button>
@@ -360,7 +358,11 @@ const LoginCredentials = () => {
         onOk={handleAddRole}
         okText="Add Role"
       >
-        <Form form={roleForm} layout="vertical" className="flex flex-col gap-4 mb-6">
+        <Form
+          form={roleForm}
+          layout="vertical"
+          className="flex flex-col gap-4 mb-6"
+        >
           <Form.Item
             name="roleName"
             label="Role Name"
@@ -386,7 +388,11 @@ const LoginCredentials = () => {
         okText="Add User"
         width={600}
       >
-        <Form form={userForm} layout="vertical" className="flex flex-col gap-4 mb-6">
+        <Form
+          form={userForm}
+          layout="vertical"
+          className="flex flex-col gap-4 mb-6"
+        >
           <Form.Item
             name="name"
             label="User Name"

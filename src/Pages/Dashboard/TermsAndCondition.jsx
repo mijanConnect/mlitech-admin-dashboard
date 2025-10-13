@@ -36,14 +36,14 @@ const TermsAndCondition = () => {
 
   return (
     <div className="">
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-end mb-6">
         <h2 className="text-xl font-bold">Terms & Conditions</h2>
-        <GradientButton
+        <Button
           onClick={showModal}
-          className="w-60 bg-secondary text-white h-10"
+          className="bg-primary px-8 py-5 rounded-full text-white hover:text-secondary text-[17px] font-bold"
         >
           Update Terms & Conditions
-        </GradientButton>
+        </Button>
       </div>
 
       <div className="saved-content mt-6 border p-6 rounded-lg bg-white">

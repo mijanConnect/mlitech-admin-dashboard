@@ -47,7 +47,7 @@ const ForgotPassword = () => {
           />
         </Form.Item>
 
-        <Form.Item>
+        <Form.Item className="mt-4">
           <button
             htmlType="submit"
             type="submit"

@@ -367,7 +367,7 @@ const CustomerManagement = () => {
             className="w-96"
           />
           <Button
-            className="bg-primary text-white hover:!text-black"
+            className="bg-primary px-8 py-5 rounded-full text-white hover:text-secondary text-[17px] font-bold"
             // onClick={exportToCSV}
           >
             Export

@@ -91,7 +91,7 @@ export default function TierSystem() {
   return (
     <div>
       {/* Header */}
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-end mb-6">
         <div>
           <h1 className="text-[24px] font-bold">Point & Tier System</h1>
           <p className="text-[16px] font-normal mt-2">
@@ -99,9 +99,8 @@ export default function TierSystem() {
           </p>
         </div>
         <Button
-          type="primary"
           onClick={() => showModal()}
-          className="bg-primary text-white hover:text-secondary font-bold"
+          className="bg-primary px-8 py-5 rounded-full text-white hover:text-secondary text-[17px] font-bold"
         >
           Add New Tier
         </Button>
@@ -129,15 +128,14 @@ export default function TierSystem() {
                 unCheckedChildren="Inactive"
               />
               <Button
-                className="bg-primary text-white hover:text-secondary font-bold"
+                className="bg-primary px-6 py-3 rounded-full text-white hover:text-secondary text-[14px] font-bold"
                 onClick={() => showModal(tier)}
               >
                 Edit
               </Button>
               <Button
-                danger
                 onClick={() => handleDelete(tier.name)}
-                className="font-bold"
+                className="bg-red-500 border-red-500 px-6 py-3 rounded-full text-white hover:text-secondary text-[14px] font-bold"
               >
                 Delete
               </Button>

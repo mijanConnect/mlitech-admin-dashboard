@@ -237,14 +237,13 @@ const PackagesPlans = () => {
           Simple, transparent pricing that grows with you. Try any plan free for
           30 days.
         </p>
-        <GradientButton
-          type="primary"
+        <Button
           icon={<PlusOutlined />}
-          className=" text-white px-5 h-auto rounded-lg shadow-lg hover:bg-[#012F60] transition-all flex items-center"
+          className="bg-primary px-8 py-5 rounded-full text-white hover:text-secondary text-[17px] font-bold"
           onClick={() => showModal()}
         >
           Add Package
-        </GradientButton>
+        </Button>
       </div>
       <div className="flex justify-center">
         <div className="w-3/4 mb-6">
@@ -336,7 +335,12 @@ const PackagesPlans = () => {
         className="rounded-lg"
         width={600}
       >
-        <Form form={form} layout="vertical" onFinish={handleSubmit} className="flex flex-col gap-4 ">
+        <Form
+          form={form}
+          layout="vertical"
+          onFinish={handleSubmit}
+          className="flex flex-col gap-4 "
+        >
           <Form.Item
             name="title"
             label="Package Title"

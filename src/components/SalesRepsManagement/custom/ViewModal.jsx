@@ -1,4 +1,3 @@
-import React from "react";
 import { Modal, Table } from "antd";
 import MarchantIcon from "../../../assets/marchant.png"; // Adjust path if needed
 
@@ -27,6 +26,26 @@ const columns2 = [
     title: "Total Revenue",
     dataIndex: "totalRevenue", // Ensure your data includes a 'totalRevenue' field
     key: "totalRevenue",
+  },
+  {
+    title: "Total Points Earned",
+    dataIndex: "totalPointsEarned",
+    key: "totalPointsEarned",
+  },
+  {
+    title: "Total Points Redeemed",
+    dataIndex: "totalPointsRedeemed",
+    key: "totalPointsRedeemed",
+  },
+  {
+    title: "Total Points Pending",
+    dataIndex: "totalPointsPending",
+    key: "totalPointsPending",
+  },
+  {
+    title: "Total Visits",
+    dataIndex: "totalVisits",
+    key: "totalVisits",
   },
 ];
 
@@ -65,6 +84,19 @@ const ViewModal = ({ visible, record, onCancel }) => {
             <p>
               <strong>Status:</strong> {record.status}
             </p>
+            {/* <p>
+              <strong>Total Points Earned:</strong> {record.totalPointsEarned}
+            </p>
+            <p>
+              <strong>Total Points Redeemed:</strong>{" "}
+              {record.totalPointsRedeemed}
+            </p>
+            <p>
+              <strong>Total Points Pending:</strong> {record.totalPointsPending}
+            </p>
+            <p>
+              <strong>Total Visits:</strong> {record.totalVisits}
+            </p> */}
             <p>
               <strong>Website:</strong>{" "}
               <a

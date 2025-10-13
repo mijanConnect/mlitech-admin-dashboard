@@ -21,6 +21,10 @@ const SalesRepsManagementTable = () => {
     {
       id: 1,
       MarchantID: 55,
+      totalPointsEarned: 1200,
+      totalPointsRedeemed: 300,
+      totalPointsPending: 150,
+      totalVisits: 45,
       name: "Alice Johnson",
       image: "https://i.ibb.co/8gh3mqPR/Ellipse-48-1.jpg",
       email: "example@email.com",
@@ -43,6 +47,10 @@ const SalesRepsManagementTable = () => {
     {
       id: 2,
       MarchantID: 59,
+      totalPointsEarned: 800,
+      totalPointsRedeemed: 200,
+      totalPointsPending: 75,
+      totalVisits: 30,
       name: "John Doe",
       image: "https://i.ibb.co/8gh3mqPR/Ellipse-48-1.jpg",
       email: "john@email.com",
@@ -65,6 +73,10 @@ const SalesRepsManagementTable = () => {
     {
       id: 3,
       MarchantID: 85,
+      totalPointsEarned: 1500,
+      totalPointsRedeemed: 500,
+      totalPointsPending: 200,
+      totalVisits: 60,
       name: "Jane Smith",
       image: "https://i.ibb.co/8gh3mqPR/Ellipse-48-1.jpg",
       email: "jane@email.com",
@@ -267,6 +279,30 @@ const SalesRepsManagementTable = () => {
     },
     { title: "Sales Rep", dataIndex: "name", key: "salesRep", align: "center" },
     { title: "Total Sales", dataIndex: "sales", key: "sales", align: "center" },
+    {
+      title: "Total Points Earned",
+      dataIndex: "totalPointsEarned",
+      key: "totalPointsEarned",
+      align: "center",
+    },
+    {
+      title: "Total Points Redeemed",
+      dataIndex: "totalPointsRedeemed",
+      key: "totalPointsRedeemed",
+      align: "center",
+    },
+    {
+      title: "Total Points Pending",
+      dataIndex: "totalPointsPending",
+      key: "totalPointsPending",
+      align: "center",
+    },
+    {
+      title: "Total Visits",
+      dataIndex: "totalVisits",
+      key: "totalVisits",
+      align: "center",
+    },
     { title: "Status", dataIndex: "status", key: "status", align: "center" },
     {
       title: "Ratings",
@@ -448,21 +484,28 @@ const SalesRepsManagementTable = () => {
           </p>
         </div>
 
-        <div className="flex md:flex-row flex-col items-start gap-2">
-          <Input.Search
+        <div className="flex md:flex-row flex-col items-end gap-4">
+          <Input
+            placeholder="Search by Customer ID, Name, Phone or Email"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            className="w-96 h-10"
+          />
+          {/* <Input.Search
             placeholder="Search by ID, Business, Phone, Email, Location"
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
             style={{ width: 300 }}
             allowClear
-          />
+            className="h-10"
+          /> */}
           <Button
-            className="bg-primary text-white hover:!text-black"
+            className="bg-primary px-8 py-5 rounded-full text-white hover:text-secondary text-[17px] font-bold"
             onClick={() => showAddOrEditModal()}
           >
             Add New Merchant
           </Button>
-          <Button className="bg-primary text-white hover:!text-black">
+          <Button className="bg-primary px-8 py-5 rounded-full text-white hover:text-secondary text-[17px] font-bold">
             Export
           </Button>
         </div>

@@ -341,7 +341,7 @@ const PromotionManagement = () => {
 
   return (
     <div className="">
-      <div className="flex justify-between flex-col md:flex-row gap-4 items-start md:items-end mb-6">
+      <div className="flex justify-between items-end flex-col md:flex-row gap-4 md:items-end mb-4">
         <div>
           <h1 className="text-[24px] font-bold">Promotions List</h1>
           <p className="text-[16px] font-normal mt-2">
@@ -349,8 +349,7 @@ const PromotionManagement = () => {
           </p>
         </div>
         <Button
-          type="primary"
-          className="bg-primary !text-white hover:!text-secondary hover:!bg-white hover:!border-primary px-[30px] py-[25px] rounded-full text-[18px] font-bold"
+          className="bg-primary px-8 py-5 rounded-full text-white hover:text-secondary text-[17px] font-bold"
           onClick={() => setIsNewCampaignModalVisible(true)}
         >
           New Promotion
