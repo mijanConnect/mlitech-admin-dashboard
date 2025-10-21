@@ -486,7 +486,7 @@ const SalesRepsManagementTable = () => {
 
         <div className="flex md:flex-row flex-col items-end gap-4">
           <Input
-            placeholder="Search by Customer ID, Name, Phone or Email"
+            placeholder="Search by Customer ID, Name, Phone or Email, Location"
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
             className="w-96 h-10"

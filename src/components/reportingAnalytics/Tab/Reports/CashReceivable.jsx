@@ -44,7 +44,7 @@ const columns = [
   //   render: (_, __, index) => index + 1,
   // },
   {
-    title: "Merchant ID",
+    title: "Customer ID",
     dataIndex: "merchantId",
     key: "merchantId",
     align: "center",
