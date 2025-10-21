@@ -1,22 +1,21 @@
-import React, { useState, useMemo } from "react";
+import { Button, Col, DatePicker, Form, Row, Select, Table } from "antd";
+import "antd/dist/reset.css";
+import dayjs from "dayjs";
+import { useMemo, useState } from "react";
 import {
-  BarChart,
-  Bar,
-  LineChart,
-  Line,
-  AreaChart,
   Area,
+  AreaChart,
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Legend,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
 } from "recharts";
-import { Table, Select, Button, DatePicker, Form } from "antd";
-import "antd/dist/reset.css";
-import { Row, Col } from "antd";
-import dayjs from "dayjs";
 
 const { Option } = Select;
 
@@ -65,6 +64,7 @@ const data = [
     Revenue: 100,
     Users: 65,
     "Points Redeemed": 32,
+    "Points Accumulated": 150,
   },
   {
     sl: 2,
@@ -79,6 +79,7 @@ const data = [
     Revenue: 75,
     Users: 60,
     "Points Redeemed": 27,
+    "Points Accumulated": 200,
   },
   {
     sl: 3,
@@ -93,6 +94,7 @@ const data = [
     Revenue: 50,
     Users: 62,
     "Points Redeemed": 22,
+    "Points Accumulated": 180,
   },
   // Other data...
 ];
@@ -115,11 +117,13 @@ const locationOptions = [
 const subscriptionOptions = ["All Statuses", "Active", "Inactive"];
 const paymentOptions = ["All Payments", "Paid", "Unpaid"];
 const metricOptions = ["Revenue", "Users", "Points Redeemed"];
+const pointsFilterOptions = ["All", "Points Redeemed", "Points Accumulated"];
 
 const maxValues = {
   Revenue: Math.max(...data.map((d) => d.Revenue)),
   Users: Math.max(...data.map((d) => d.Users)),
   "Points Redeemed": Math.max(...data.map((d) => d["Points Redeemed"])),
+  "Points Accumulated": Math.max(...data.map((d) => d["Points Accumulated"])),
 };
 
 // Custom 3D Bar with watermark
@@ -200,6 +204,7 @@ export default function MonthlyStatsChartCustomer() {
     useState("All Statuses");
   const [selectedPayment, setSelectedPayment] = useState("All Payments");
   const [selectedMetric, setSelectedMetric] = useState("all");
+  const [selectedPointsFilter, setSelectedPointsFilter] = useState("All");
   const [chartType, setChartType] = useState("Bar");
 
   const filteredData = useMemo(() => {
@@ -266,18 +271,18 @@ export default function MonthlyStatsChartCustomer() {
       key: "PaymentStatus",
       align: "center",
     },
-    {
-      title: "Days to Expire",
-      dataIndex: "DaysToExpire",
-      key: "DaysToExpire",
-      align: "center",
-    },
     { title: "Revenue", dataIndex: "Revenue", key: "Revenue", align: "center" },
     { title: "Users", dataIndex: "Users", key: "Users", align: "center" },
     {
       title: "Points Redeemed",
       dataIndex: "Points Redeemed",
       key: "Points Redeemed",
+      align: "center",
+    },
+    {
+      title: "Points Accumulated",
+      dataIndex: "Points Accumulated",
+      key: "Points Accumulated",
       align: "center",
     },
   ];
@@ -408,21 +413,6 @@ export default function MonthlyStatsChartCustomer() {
 
             <Col flex="1 1 220px">
               <Form.Item
-                label="Days to Expire"
-                style={{ marginBottom: "0.5rem" }}
-              >
-                <DatePicker
-                  value={toDate ? dayjs(toDate) : null}
-                  onChange={(date) => setToDate(date)}
-                  style={{ width: "100%" }}
-                  placeholder="End Date"
-                  className="mli-tall-picker"
-                />
-              </Form.Item>
-            </Col>
-
-            <Col flex="1 1 220px">
-              <Form.Item
                 label="Select Chart Type"
                 style={{ marginBottom: "0.5rem" }}
               >
@@ -461,6 +451,26 @@ export default function MonthlyStatsChartCustomer() {
             </Col>
 
             <Col flex="1 1 220px">
+              <Form.Item
+                label="Points Filter"
+                style={{ marginBottom: "0.5rem" }}
+              >
+                <Select
+                  value={selectedPointsFilter}
+                  style={{ width: "100%" }}
+                  onChange={setSelectedPointsFilter}
+                  className="mli-tall-select"
+                >
+                  {pointsFilterOptions.map((option) => (
+                    <Option key={option} value={option}>
+                      {option}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
+
+            <Col flex="1 1 220px">
               <Form.Item label="Actions" style={{ marginBottom: "0.5rem" }}>
                 <div className="flex gap-2">
                   <Button
@@ -474,6 +484,7 @@ export default function MonthlyStatsChartCustomer() {
                       setSelectedSubscription("All Statuses");
                       setSelectedPayment("All Payments");
                       setSelectedMetric("all");
+                      setSelectedPointsFilter("All");
                       setChartType("Bar");
                     }}
                   >
@@ -616,10 +627,40 @@ export default function MonthlyStatsChartCustomer() {
           rowClassName="custom-row"
           components={components}
           className="custom-table"
-          columns={columns.filter(
-            (col) =>
-              selectedMetric === "all" || col.dataIndex === selectedMetric
-          )}
+          columns={columns.filter((col) => {
+            // Always show basic columns (not metric-related)
+            if (
+              ![
+                "Revenue",
+                "Users",
+                "Points Redeemed",
+                "Points Accumulated",
+              ].includes(col.dataIndex)
+            ) {
+              return true;
+            }
+
+            // Points filter logic
+            if (selectedPointsFilter !== "All") {
+              // Show only the selected points column
+              if (col.dataIndex === selectedPointsFilter) {
+                return true;
+              }
+              // Hide other points columns
+              if (
+                col.dataIndex === "Points Redeemed" ||
+                col.dataIndex === "Points Accumulated"
+              ) {
+                return false;
+              }
+            }
+
+            // Metric filter logic
+            if (selectedMetric === "all") {
+              return true;
+            }
+            return col.dataIndex === selectedMetric;
+          })}
           dataSource={filteredData.map((row, index) => ({
             ...row,
             key: index,
