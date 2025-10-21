@@ -30,7 +30,7 @@ const SalesRepPortal = () => {
         >
           <CustomerReferred />
         </TabPane>
-        <TabPane
+        {/* <TabPane
           tab={
             <span
               style={{
@@ -50,7 +50,7 @@ const SalesRepPortal = () => {
           key="2"
         >
           <SalesRepList />
-        </TabPane>
+        </TabPane> */}
       </Tabs>
     </div>
   );
