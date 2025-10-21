@@ -151,48 +151,48 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 h-[240px]">
-            <div className="bg-white border border-primary rounded-lg flex items-center justify-center">
+          <div className="grid grid-cols-2 gap-3">
+            <div className="bg-white border border-primary rounded-lg flex items-center justify-start p-6">
               <div className="flex flex-col items-baseline">
-                <h2 className="text-center text-[16px] font-semibold mb-1">
+                <h2 className="text-[16px] font-semibold mb-1">
                   Total Merchants
                 </h2>
-                <h3 className="text-secondary text-[24px] text-center font-semibold flex items-center gap-3">
+                <h3 className="text-secondary text-[24px] font-semibold flex items-center gap-3">
                   <Marchant className="w-[20px] h-[20px] text-secondary" />
                   23
                 </h3>
               </div>
             </div>
 
-            <div className="bg-white border border-primary rounded-lg flex items-center justify-center">
+            <div className="bg-white border border-primary rounded-lg flex items-center justify-start p-6">
               <div className="flex flex-col items-baseline">
-                <h2 className="text-center text-[16px] font-semibold mb-1">
+                <h2 className="text-[16px] font-semibold mb-1">
                   Total Customers
                 </h2>
-                <h3 className="text-secondary text-[24px] text-center font-semibold flex items-center gap-3">
+                <h3 className="text-secondary text-[24px] font-semibold flex items-center gap-3">
                   <People className="w-[20px] h-[20px] text-secondary" />
                   500
                 </h3>
               </div>
             </div>
 
-            <div className="bg-white border border-primary rounded-lg flex items-center justify-center">
+            <div className="bg-white border border-primary rounded-lg flex items-center justify-start p-6">
               <div className="flex flex-col items-baseline">
-                <h2 className="text-center text-[16px] font-semibold mb-1">
+                <h2 className="text-[16px] font-semibold mb-1">
                   Pending Approvals
                 </h2>
-                <h3 className="text-secondary text-[24px] text-center font-semibold flex items-center gap-3">
+                <h3 className="text-secondary text-[24px] font-semibold flex items-center gap-3">
                   <Pending className="w-[20px] h-[20px] text-secondary" />3
                 </h3>
               </div>
             </div>
 
-            <div className="bg-white border border-primary rounded-lg flex items-center justify-center">
+            <div className="bg-white border border-primary rounded-lg flex items-center justify-start p-6">
               <div className="flex flex-col items-baseline">
-                <h2 className="text-center text-[16px] font-semibold mb-1">
+                <h2 className="text-[16px] font-semibold mb-1">
                   Subscription Revenue
                 </h2>
-                <h3 className="text-secondary text-[24px] text-center font-semibold flex items-center gap-3">
+                <h3 className="text-secondary text-[24px] font-semibold flex items-center gap-3">
                   <SubscriptionManagement className="w-[20px] h-[20px] text-secondary" />
                   $4000
                 </h3>
