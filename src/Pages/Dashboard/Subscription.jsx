@@ -381,8 +381,12 @@ const PackagesPlans = () => {
               className="w-1/2"
             >
               <Select placeholder="Select duration" className="mli-tall-select">
-                <Select.Option value="1 month">4 Month</Select.Option>
+                <Select.Option value="1 month">1 Month</Select.Option>
+                <Select.Option value="1 month">3 Months</Select.Option>
+                <Select.Option value="1 month">4 Months</Select.Option>
+                <Select.Option value="1 month">6 Months</Select.Option>
                 <Select.Option value="3 months">8 Months</Select.Option>
+                <Select.Option value="3 months">12 Months</Select.Option>
               </Select>
             </Form.Item>
           </div>
