@@ -1,22 +1,21 @@
-import React, { useState, useMemo } from "react";
+import { Button, Col, DatePicker, Form, Row, Select, Table } from "antd";
+import "antd/dist/reset.css";
+import dayjs from "dayjs";
+import { useMemo, useState } from "react";
 import {
-  BarChart,
-  Bar,
-  LineChart,
-  Line,
-  AreaChart,
   Area,
+  AreaChart,
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Legend,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
 } from "recharts";
-import { Table, Select, Button, DatePicker, Form } from "antd";
-import "antd/dist/reset.css";
-import { Row, Col } from "antd";
-import dayjs from "dayjs";
 
 const { Option } = Select;
 
@@ -57,6 +56,7 @@ const data = [
     date: "2025-01-01",
     category: "Employee",
     region: "USA",
+    merchantId: "M001",
     MerchantName: "Merchant 1",
     Location: "New York",
     SubscriptionStatus: "Active",
@@ -71,6 +71,7 @@ const data = [
     date: "2025-02-01",
     category: "Employee",
     region: "USA",
+    merchantId: "M002",
     MerchantName: "Merchant 2",
     Location: "Los Angeles",
     SubscriptionStatus: "Inactive",
@@ -85,6 +86,7 @@ const data = [
     date: "2025-03-01",
     category: "Employee",
     region: "USA",
+    merchantId: "M003",
     MerchantName: "Merchant 3",
     Location: "Chicago",
     SubscriptionStatus: "Active",
@@ -242,6 +244,12 @@ export default function MonthlyStatsChartMerchant() {
       render: (_, __, index) => index + 1,
     },
     { title: "Date", dataIndex: "date", key: "date", align: "center" },
+    {
+      title: "Merchant ID",
+      dataIndex: "merchantId",
+      key: "merchantId",
+      align: "center",
+    },
     {
       title: "Merchant Name",
       dataIndex: "MerchantName",
