@@ -1,27 +1,33 @@
-import React, { useState } from "react";
-import { Table, DatePicker, Row, Col, Button } from "antd";
+import { Button, DatePicker, Table } from "antd";
 import "antd/dist/reset.css";
 import dayjs from "dayjs";
+import { useState } from "react";
 
 // Sample data for points redeemed
 const data = [
   {
     sl: 1,
+    customerName: "John Doe",
     period: "2025-01",
+    customerId: "C001",
     redemptions: 15,
     totalPointsRedeemed: 3200,
     date: "2025-01-01", // Add date to the data
   },
   {
     sl: 2,
+    customerName: "Jane Smith",
     period: "2025-02",
+    customerId: "C002",
     redemptions: 10,
     totalPointsRedeemed: 2500,
     date: "2025-02-01", // Add date to the data
   },
   {
     sl: 3,
+    customerName: "Mike Johnson",
     period: "2025-03",
+    customerId: "C003",
     redemptions: 20,
     totalPointsRedeemed: 4500,
     date: "2025-03-01", // Add date to the data
@@ -37,7 +43,20 @@ const columns = [
   //   align: "center",
   //   render: (_, __, index) => index + 1,
   // },
-  { title: "Period", dataIndex: "period", key: "period", align: "center" },
+    { title: "Period", dataIndex: "period", key: "period", align: "center" },
+  {
+    title: "Customer ID",
+    dataIndex: "customerId",
+    key: "customerId",
+    align: "center",
+  },
+
+  {
+    title: "Customer Name",
+    dataIndex: "customerName",
+    key: "customerName",
+    align: "center",
+  },
   {
     title: "Redemptions",
     dataIndex: "redemptions",

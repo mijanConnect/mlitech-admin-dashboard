@@ -46,6 +46,7 @@ const columns = [
     key: "merchantId",
     align: "center",
   },
+  
   {
     title: "Sales Rep",
     dataIndex: "salesRep",
